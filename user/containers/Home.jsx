@@ -3,6 +3,9 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
 import MapView, { Marker } from 'react-native-maps';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import MapHome from '../components/MapHome'
 
 import {
   StyleSheet,
@@ -19,6 +22,7 @@ import {
 const Home = (props) => {
 
   const [location, setLocation] = useState('')
+  const [view, setView] = useState('map')
 
   useEffect(() => {
     permission()
@@ -33,69 +37,71 @@ const Home = (props) => {
   }
 
   return(
-    <View style={styles.container}>
-      <StatusBar 
-        barStyle='dark-content'
-      />
-      <MapView style={styles.mapStyle} 
-        camera={{
-          center: {
-            latitude: location ? location.latitude : -6.2607917,
-            longitude: location ? location.longitude : 106.7810557
-          },
-          pitch: 0,
-          heading: 0,
-          altitude: 5000,
-          zoom: 14
-        }}
-      >
-        <Marker 
-          coordinate={{
-            latitude: -6.2607917,
-            longitude: 106.7810557
-          }}
-        >
+    <>
+      {
+        view == 'map'
+        ? (
+          <MapHome location={location} />
+        )
+        : (
           <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
+            <Text>Test</Text>
           </View>
-        </Marker>
-        <Marker 
-          coordinate={{
-            latitude: -6.261861,
-            longitude: 106.783890
-          }}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
-          </View>
-        </Marker>
-      </MapView>
+        )
+      }
+      
       <SafeAreaView
         style={{
           position: 'absolute',
           top: 0,
           right: 0,
           marginRight: 20,
-          marginTop: 20
+          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 0
         }}
       >
-        <TouchableOpacity>
-          <Text>test</Text>
-        </TouchableOpacity>
+        {
+          view == 'map'
+          ? (
+            <TouchableOpacity
+              style={{
+                padding: 8,
+                borderRadius: 8,
+                backgroundColor: 'white'
+              }}
+              activeOpacity={0.6}
+              onPress={() => setView('list')}
+            >
+              <FontAwesome5 
+                name={'list-ul'} 
+                solid
+                style={{
+                  fontSize: 17
+                }}
+              />
+            </TouchableOpacity>
+          )
+          : (
+            <TouchableOpacity
+              style={{
+                padding: 8,
+                borderRadius: 8,
+                backgroundColor: 'white'
+              }}
+              activeOpacity={0.6}
+              onPress={() => setView('map')}
+            >
+              <FontAwesome5 
+                name={'map'} 
+                solid
+                style={{
+                  fontSize: 17
+                }}
+              />
+            </TouchableOpacity>
+          )
+        }
       </SafeAreaView>
-    </View>
+    </>
   )
 }
 
