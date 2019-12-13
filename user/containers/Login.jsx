@@ -25,7 +25,8 @@ const Login = (props) => {
         style={{
           fontSize: 30,
           fontWeight: '800',
-          marginBottom: 30
+          marginBottom: 30,
+          color: '#286d28'
         }}
       >
         BossRecycle
@@ -125,7 +126,7 @@ const Login = (props) => {
         <TouchableOpacity>
           <Text
             style={{
-              color: '#3997F0',
+              color: '#468847',
               fontWeight: '600'
             }}
           >Sign up.</Text>
@@ -139,7 +140,7 @@ const Login = (props) => {
 
 const styles = StyleSheet.create({
   buttonLogin: {
-    backgroundColor: '#3997F0',
+    backgroundColor: '#468847',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   buttonLoginDisable: {
-    backgroundColor: '#C6E0FA',
+    backgroundColor: '#afd6af',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
