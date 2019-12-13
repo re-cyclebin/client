@@ -91,7 +91,7 @@ const Login = (props) => {
               >Log in</Text>
             </View>
           )
-        )
+        ) 
         : (
           <View
             activeOpacity={0.7}
