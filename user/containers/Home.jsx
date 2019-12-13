@@ -6,6 +6,7 @@ import MapView, { Marker } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import MapHome from '../components/MapHome'
+import ListHome from '../components/ListHome'
 
 import {
   StyleSheet,
@@ -44,9 +45,7 @@ const Home = (props) => {
           <MapHome location={location} />
         )
         : (
-          <View>
-            <Text>Test</Text>
-          </View>
+          <ListHome location={location}/>
         )
       }
       
@@ -56,7 +55,7 @@ const Home = (props) => {
           top: 0,
           right: 0,
           marginRight: 20,
-          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 0
+          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 20
         }}
       >
         {
@@ -85,7 +84,7 @@ const Home = (props) => {
               style={{
                 padding: 8,
                 borderRadius: 8,
-                backgroundColor: 'white'
+                backgroundColor: 'black'
               }}
               activeOpacity={0.6}
               onPress={() => setView('map')}
@@ -94,7 +93,8 @@ const Home = (props) => {
                 name={'map'} 
                 solid
                 style={{
-                  fontSize: 17
+                  fontSize: 17,
+                  color: 'white'
                 }}
               />
             </TouchableOpacity>
