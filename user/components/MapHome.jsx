@@ -1,5 +1,10 @@
 import React from 'react'
 import { withNavigation } from 'react-navigation'
+import MapViewDirections from 'react-native-maps-directions';
+
+const origin = {latitude: 37.3318456, longitude: -122.0296002};
+const destination = {latitude: 37.771707, longitude: -122.4053769};
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDj8ftMy8ui6OG3awnbw2hDGN_Yjamadmo';
 
 import MapView, { Marker } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -70,6 +75,19 @@ const MapHome = (props) => {
             />
           </View>
         </Marker>
+        {/* <MapViewDirections
+          origin={{
+            latitude: -6.2607917,
+            longitude: 106.7810557
+          }}
+          destination={{
+            latitude: -6.261861,
+            longitude: 106.783890
+          }}
+          apikey={GOOGLE_MAPS_APIKEY}
+          strokeWidth={3}
+          strokeColor="#3997F0"
+        /> */}
       </MapView>
     </View>
   )
