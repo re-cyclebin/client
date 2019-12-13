@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 import MapView, { Marker } from 'react-native-maps';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import MapHome from '../components/MapHome'
 
 import {
   StyleSheet,
@@ -15,38 +20,88 @@ import {
 } from 'react-native'
 
 const Home = (props) => {
+
+  const [location, setLocation] = useState('')
+  const [view, setView] = useState('map')
+
+  useEffect(() => {
+    permission()
+  }, [])
+
+  const permission = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if(status == 'granted') {
+      let { coords } = await Location.getCurrentPositionAsync({});
+      setLocation( coords );
+    }
+  }
+
   return(
-    <SafeAreaView style={styles.container}>
-      <MapView style={styles.mapStyle} 
-        camera={{
-          center: {
-            latitude: -6.2607917,
-            longitude: 106.7810557
-          },
-          pitch: 0,
-          heading: 0,
-          altitude: 10000,
-          zoom: 11
+    <>
+      {
+        view == 'map'
+        ? (
+          <MapHome location={location} />
+        )
+        : (
+          <View>
+            <Text>Test</Text>
+          </View>
+        )
+      }
+      
+      <SafeAreaView
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          marginRight: 20,
+          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 0
         }}
       >
-        <Marker 
-          coordinate={{
-            latitude: -6.2607917,
-            longitude: 106.7810557
-          }}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
+        {
+          view == 'map'
+          ? (
+            <TouchableOpacity
               style={{
-                width: 20,
-                height: 40
+                padding: 8,
+                borderRadius: 8,
+                backgroundColor: 'white'
               }}
-            />
-          </View>
-        </Marker>
-      </MapView>
-    </SafeAreaView>
+              activeOpacity={0.6}
+              onPress={() => setView('list')}
+            >
+              <FontAwesome5 
+                name={'list-ul'} 
+                solid
+                style={{
+                  fontSize: 17
+                }}
+              />
+            </TouchableOpacity>
+          )
+          : (
+            <TouchableOpacity
+              style={{
+                padding: 8,
+                borderRadius: 8,
+                backgroundColor: 'white'
+              }}
+              activeOpacity={0.6}
+              onPress={() => setView('map')}
+            >
+              <FontAwesome5 
+                name={'map'} 
+                solid
+                style={{
+                  fontSize: 17
+                }}
+              />
+            </TouchableOpacity>
+          )
+        }
+      </SafeAreaView>
+    </>
   )
 }
 
@@ -57,7 +112,7 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: 300
+    height: '100%'
   },
 });
 
