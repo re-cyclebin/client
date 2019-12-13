@@ -45,6 +45,22 @@ const Home = (props) => {
             />
           </View>
         </Marker>
+        <Marker 
+          coordinate={{
+            latitude: -6.261861,
+            longitude: 106.783890
+          }}
+        >
+          <View>
+            <Image 
+              source={require('../assets/trueTrash.png')}
+              style={{
+                width: 20,
+                height: 40
+              }}
+            />
+          </View>
+        </Marker>
       </MapView>
     </SafeAreaView>
   )
