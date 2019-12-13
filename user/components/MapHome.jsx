@@ -1,10 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withNavigation } from 'react-navigation'
 import MapViewDirections from 'react-native-maps-directions';
-
-const origin = {latitude: 37.3318456, longitude: -122.0296002};
-const destination = {latitude: 37.771707, longitude: -122.4053769};
-const GOOGLE_MAPS_APIKEY = 'AIzaSyDj8ftMy8ui6OG3awnbw2hDGN_Yjamadmo';
 
 import MapView, { Marker } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,7 +17,21 @@ import {
   StatusBar
 } from 'react-native'
 
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDj8ftMy8ui6OG3awnbw2hDGN_Yjamadmo';
+
 const MapHome = (props) => {
+  const [loc1, setLoc1] = useState({
+    latitude: -6.261861,
+    longitude: 106.783890
+  })
+
+  const [loc2, setLoc2] = useState({
+    latitude: -6.2635541,
+    longitude: 106.7807222
+  })
+
+  const [destination, setDestination] = useState({})
+
   return (
     <View style={styles.container}>
       <StatusBar 
@@ -42,11 +52,9 @@ const MapHome = (props) => {
         }}
       >
         <Marker 
-          coordinate={{
-            latitude: -6.2607917,
-            longitude: 106.7810557
-          }}
-          onPress={() => props.navigation.navigate('Detail')}
+          coordinate={loc2}
+          // onPress={() => props.navigation.navigate('Detail')}
+          onPress={() => setDestination(loc2)}
         >
           <View>
             <Image 
@@ -59,11 +67,9 @@ const MapHome = (props) => {
           </View>
         </Marker>
         <Marker 
-          coordinate={{
-            latitude: -6.261861,
-            longitude: 106.783890
-          }}
-          onPress={() => props.navigation.navigate('Detail')}
+          coordinate={loc1}
+          // onPress={() => props.navigation.navigate('Detail')}
+          onPress={() => setDestination(loc1)}
         >
           <View>
             <Image 
@@ -75,19 +81,16 @@ const MapHome = (props) => {
             />
           </View>
         </Marker>
-        <MapViewDirections
+        {/* <MapViewDirections
           origin={{
             latitude: -6.2607917,
             longitude: 106.7810557
           }}
-          destination={{
-            latitude: -6.261861,
-            longitude: 106.783890
-          }}
+          destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#3997F0"
-        />
+        /> */}
       </MapView>
     </View>
   )
