@@ -75,7 +75,7 @@ const MapHome = (props) => {
             />
           </View>
         </Marker>
-        {/* <MapViewDirections
+        <MapViewDirections
           origin={{
             latitude: -6.2607917,
             longitude: 106.7810557
@@ -87,7 +87,7 @@ const MapHome = (props) => {
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#3997F0"
-        /> */}
+        />
       </MapView>
     </View>
   )
