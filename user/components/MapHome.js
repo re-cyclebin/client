@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
+import React from 'react'
 
 import MapView, { Marker } from 'react-native-maps';
 
@@ -16,27 +14,9 @@ import {
   StatusBar
 } from 'react-native'
 
-const Home = (props) => {
-
-  const [location, setLocation] = useState('')
-
-  useEffect(() => {
-    permission()
-  }, [])
-
-  const permission = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if(status == 'granted') {
-      let { coords } = await Location.getCurrentPositionAsync({});
-      setLocation( coords );
-    }
-  }
-
-  return(
+const MapHome = (props) => {
+  return (
     <View style={styles.container}>
-      <StatusBar 
-        barStyle='dark-content'
-      />
       <MapView style={styles.mapStyle} 
         camera={{
           center: {
@@ -82,19 +62,9 @@ const Home = (props) => {
           </View>
         </Marker>
       </MapView>
-      <SafeAreaView
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          marginRight: 20,
-          marginTop: 20
-        }}
-      >
-        <TouchableOpacity>
-          <Text>test</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+      <Text>
+        {JSON.stringify(location)}
+      </Text>
     </View>
   )
 }
@@ -106,8 +76,8 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: '100%'
+    height: 300
   },
 });
 
-export default Home
+export default MapHome
