@@ -20,7 +20,7 @@ const Profile = (props) => {
     <ScrollView
     showsVerticalScrollIndicator={false}
       style={{
-        paddingTop: 30,
+        paddingTop: 10,
         marginHorizontal: 20
       }}
     >
@@ -145,11 +145,6 @@ const Profile = (props) => {
                     fontWeight: '500'
                   }}
                 >Point: 2000</Text>
-                <Text
-                  style={{
-                    marginTop: 3
-                  }}
-                >Test</Text>
                 <Text
                   style={{
                     marginTop: 10

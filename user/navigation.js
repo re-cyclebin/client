@@ -11,9 +11,14 @@ import Home from './containers/Home'
 import Detail from './containers/Detail'
 import Profile from './containers/Profile'
 import Add from './containers/Add'
+import ConfirmationAddTrash from './containers/ConfirmationAddTrash'
+import ProcessAdd from './containers/ProcessAdd'
+import Waiting from './containers/Waiting'
+import Point from './containers/Point'
 import Dummy from './containers/Dummy'
 
 import HeaderProfile from './components/HeaderProfile'
+import HeaderAddTrash from './components/HeaderAddTrash'
 
 const stackHome = createStackNavigator({
   Home: {
@@ -34,17 +39,33 @@ const stackProfile = createStackNavigator({
   }
 })
 
+const stackAdd = createStackNavigator({
+  Add: {
+    screen: Add,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ConfirmationAddTrash: {
+    screen: ConfirmationAddTrash,
+    navigationOptions: {
+      header: ({ navigation }) => <HeaderAddTrash navigation={navigation}/>
+    }
+  }
+}, {
+  initialRouteName: 'Add'
+})
+
 const tabNav = createBottomTabNavigator({
   stackHome: {
     screen: stackHome,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'home'} style={{ fontSize: 20, color: tintColor}}/>,
       title: 'Home',
-
     },
   },
-  Add: {
-    screen: Add,
+  stackAdd: {
+    screen: stackAdd,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'plus-circle'} style={{ fontSize: 20, color: tintColor}} />,
       title: 'Add Trash'
@@ -58,6 +79,7 @@ const tabNav = createBottomTabNavigator({
     }
   },
 }, {
+  initialRouteName: 'stackAdd',
   tabBarOptions: {
     activeTintColor: '#468847'
   }
@@ -68,9 +90,11 @@ const switchNav = createSwitchNavigator({
     screen: Login
   },
   tabNav,
-  Dummy
+  ProcessAdd,
+  Waiting,
+  Point
 }, {
-  initialRouteName: 'tabNav'
+  initialRouteName: 'Point'
 })
 
 export default createAppContainer(switchNav)
