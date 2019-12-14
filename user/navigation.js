@@ -10,6 +10,10 @@ import Login from './containers/Login'
 import Home from './containers/Home'
 import Detail from './containers/Detail'
 import Profile from './containers/Profile'
+import Add from './containers/Add'
+import Dummy from './containers/Dummy'
+
+import HeaderProfile from './components/HeaderProfile'
 
 const stackHome = createStackNavigator({
   Home: {
@@ -21,20 +25,38 @@ const stackHome = createStackNavigator({
   Detail
 })
 
+const stackProfile = createStackNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      header: <HeaderProfile />
+    }
+  }
+})
+
 const tabNav = createBottomTabNavigator({
   stackHome: {
     screen: stackHome,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'home'} style={{ fontSize: 17, color: tintColor}}/>,
-      title: 'Home'
+      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'home'} style={{ fontSize: 20, color: tintColor}}/>,
+      title: 'Home',
+
+    },
+  },
+  Add: {
+    screen: Add,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'plus-circle'} style={{ fontSize: 20, color: tintColor}} />,
+      title: 'Add Trash'
     }
   },
-  Profile: {
-    screen: Profile,
+  stackProfile: {
+    screen: stackProfile,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'user-alt'} style={{ fontSize: 17, color: tintColor}} />
+      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'user-alt'} style={{ fontSize: 20, color: tintColor}} />,
+      title: 'Profile'
     }
-  }
+  },
 }, {
   tabBarOptions: {
     activeTintColor: '#468847'
@@ -45,9 +67,10 @@ const switchNav = createSwitchNavigator({
   Login: {
     screen: Login
   },
-  tabNav
+  tabNav,
+  Dummy
 }, {
-  initialRouteName: 'Login'
+  initialRouteName: 'tabNav'
 })
 
 export default createAppContainer(switchNav)
