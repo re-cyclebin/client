@@ -23,7 +23,8 @@ const ListMap = (props) => {
   return(
     <View
       style={{
-        marginTop: 20
+        marginTop: 20,
+        marginBottom: 20
       }}
     >
       <MapView
@@ -88,20 +89,12 @@ const ListMap = (props) => {
             alignItems: 'center'
           }}
         >
-          <View
+          <Text
             style={{
-              backgroundColor: '#468847',
-              padding: 6,
-              borderRadius: 5
+              color: '#468847',
+              fontWeight: '600'
             }}
-          >
-            <Text
-              style={{
-                color: 'white',
-                fontWeight: '600'
-              }}
-            >Availavble</Text>
-          </View>
+          >Availavble</Text>
           <Text
             style={{
               marginLeft: 10

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axiosServer from '../configs/axiosServer'
 
 import {
   StyleSheet,
@@ -11,9 +12,45 @@ import {
   TouchableOpacity
 } from 'react-native'
 
+
 const Login = (props) => {
-  const [email, setEmail] = useState('')
+  const [request, setRequest] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const Error = () => {
+    return(
+      <Text
+        style={{
+          marginTop: 20,
+          color: 'red'
+        }}
+      >
+        { error }
+      </Text>
+    )
+  }
+
+  const login = async () => {
+    try{
+      const { data } = await axiosServer({
+        url: '/signin',
+        method: 'post',
+        data: {
+          request,
+          password
+        }
+      })
+      console.log(data)
+    }
+    catch(err) {
+      setTimeout(() => {
+        setError('')
+      }, 2000)
+      console.log(err.response.data.msg)
+      setError(err.response.data.msg)
+    }
+  }
 
   return(
     <SafeAreaView
@@ -25,22 +62,22 @@ const Login = (props) => {
         style={{
           fontSize: 30,
           fontWeight: '800',
-          marginBottom: 30
+          marginBottom: 30,
+          color: '#286d28'
         }}
       >
         BossRecycle
       </Text>
       <TextInput 
-        value={email}
-        onChangeText={(value) => setEmail(value)}
+        value={request}
+        onChangeText={(value) => setRequest(value)}
         style={
           styles.textInput
         }
-        placeholder={'Email'}
+        placeholder={'Email/Username'}
         placeholderTextColor={'#9F9F9F'}
         autoCorrect={false}
         autoCapitalize='none'
-        keyboardType='email-address'
       />
       <TextInput 
         value={password}
@@ -55,11 +92,12 @@ const Login = (props) => {
         secureTextEntry={true}
       />
       {
-        email 
+        request 
         ? (
           password 
           ? (
             <TouchableOpacity
+            onPress={() => login()}
               activeOpacity={0.7}
               style={
                 styles.buttonLogin
@@ -76,7 +114,6 @@ const Login = (props) => {
           )
           : (
             <View
-              activeOpacity={0.7}
               style={
                 styles.buttonLoginDisable
               }
@@ -90,10 +127,9 @@ const Login = (props) => {
               >Log in</Text>
             </View>
           )
-        )
+        ) 
         : (
           <View
-            activeOpacity={0.7}
             style={
               styles.buttonLoginDisable
             }
@@ -108,6 +144,13 @@ const Login = (props) => {
           </View>
         )
       }
+
+      {
+        error 
+        ? <Error />
+        : <Text></Text>
+      }
+
       <View
         style={{
           flexDirection: 'row',
@@ -125,7 +168,7 @@ const Login = (props) => {
         <TouchableOpacity>
           <Text
             style={{
-              color: '#3997F0',
+              color: '#468847',
               fontWeight: '600'
             }}
           >Sign up.</Text>
@@ -139,7 +182,7 @@ const Login = (props) => {
 
 const styles = StyleSheet.create({
   buttonLogin: {
-    backgroundColor: '#3997F0',
+    backgroundColor: '#468847',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -148,7 +191,7 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   buttonLoginDisable: {
-    backgroundColor: '#C6E0FA',
+    backgroundColor: '#afd6af',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
