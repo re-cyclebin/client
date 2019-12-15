@@ -14,7 +14,8 @@ const Point = (props) => {
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100%'
+        minHeight: '100%',
+        marginHorizontal: 20
       }}
     >
       <Image 
@@ -63,13 +64,16 @@ const Point = (props) => {
           paddingHorizontal: 20,
           borderRadius: 9,
           backgroundColor: '#31B057',
-          marginTop: 20
+          marginTop: 20,
+          width: '100%',
+          alignItems: 'center'
         }}
       >
         <Text
           style={{
             color: 'white',
-            fontWeight: '600'
+            fontWeight: '600',
+            fontSize: 18
           }}
         >Back to home</Text>
       </TouchableOpacity>
