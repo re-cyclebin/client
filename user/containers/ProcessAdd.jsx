@@ -27,7 +27,8 @@ const ProcessAdd = (props) => {
       />
       <View
         style={{
-          marginTop: 15
+          marginTop: 15,
+          alignItems: 'center'
         }}
       >
         <Text
@@ -50,17 +51,18 @@ const ProcessAdd = (props) => {
               marginTop: 50,
               backgroundColor: '#31B057',
               paddingVertical: 10,
-              paddingHorizontal: 40,
-              borderRadius: 8
+              borderRadius: 5,
+              alignItems: 'center',
+              width: '100%'
             }}
           >
             <Text
               style={{
                 color: 'white',
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: '600'
               }}
-            >Done</Text>
+            >I'm done adding trash</Text>
           </TouchableOpacity>
         </View>
       </View>
