@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import axiosServer from '../configs/axiosServer'
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+const LOGIN = gql`
+  mutation (
+  $request: String, 
+  $password: String
+) {
+    signin (request: $request, password: $password){
+      user {
+        username
+      }
+      token
+    }
+  }
+`;
 
 import {
   StyleSheet,
@@ -9,14 +25,15 @@ import {
   StatusBar,
   Platform,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native'
-
 
 const Login = (props) => {
   const [request, setRequest] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const Error = () => {
     return(
@@ -31,24 +48,27 @@ const Login = (props) => {
     )
   }
 
+  const [loginUser, { data }] = useMutation(LOGIN)
+
   const login = async () => {
     try{
-      const { data } = await axiosServer({
-        url: '/signin',
-        method: 'post',
-        data: {
+      setIsLoading(true)
+      await loginUser({
+        variables: {
           request,
           password
         }
       })
-      console.log(data)
+      setIsLoading(false)
+      props.navigation.navigate('tabNav')
     }
     catch(err) {
+      setIsLoading(false)
+      console.log(err.graphQLErrors[0].message)
       setTimeout(() => {
         setError('')
       }, 2000)
-      console.log(err.response.data.msg)
-      setError(err.response.data.msg)
+      setError(err.graphQLErrors[0].message)
     }
   }
 
@@ -66,7 +86,7 @@ const Login = (props) => {
           color: '#286d28'
         }}
       >
-        BossRecycle
+        Boostle
       </Text>
       <TextInput 
         value={request}
@@ -103,13 +123,19 @@ const Login = (props) => {
                 styles.buttonLogin
               }
             >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 18,
-                  fontWeight: '600'
-                }}
-              >Log in</Text>
+              {
+                !isLoading
+                ? (
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 18,
+                      fontWeight: '600'
+                    }}
+                  >Log in</Text>
+                )
+                : <ActivityIndicator color='white' />
+              }
             </TouchableOpacity>
           )
           : (
@@ -134,28 +160,34 @@ const Login = (props) => {
               styles.buttonLoginDisable
             }
           >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 18,
-                fontWeight: '600'
-              }}
-            >Log in</Text>
+            {
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 18,
+                  fontWeight: '600'
+                }}
+              >Log in</Text>
+            }
           </View>
         )
       }
 
       {
-        error 
+        error
         ? <Error />
-        : <Text></Text>
+        : <Text
+          style={{
+            color: 'white',
+            marginTop: 20,
+          }}> test </Text>
       }
 
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: 40
+          marginTop: 20
         }}
       >
         <Text

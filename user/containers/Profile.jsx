@@ -11,7 +11,8 @@ import {
   StatusBar,
   Image,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native'
 
 const Profile = (props) => {

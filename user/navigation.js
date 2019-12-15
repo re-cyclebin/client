@@ -53,7 +53,7 @@ const stackAdd = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'ConfirmationAddTrash'
+  initialRouteName: 'Add'
 })
 
 const tabNav = createBottomTabNavigator({
@@ -94,7 +94,7 @@ const switchNav = createSwitchNavigator({
   Waiting,
   Point
 }, {
-  initialRouteName: 'tabNav'
+  initialRouteName: 'Login'
 })
 
 export default createAppContainer(switchNav)
