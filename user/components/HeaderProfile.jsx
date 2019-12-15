@@ -17,6 +17,7 @@ const HeaderProfile = (props) => {
     <SafeAreaView
       style={{
         backgroundColor: 'white',
+        height: 90
       }}
     >
       <View
@@ -26,7 +27,6 @@ const HeaderProfile = (props) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 10
         }}
       >
         <Text

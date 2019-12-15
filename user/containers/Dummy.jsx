@@ -1,4 +1,5 @@
 import React from 'react'
+import {withNavigation} from 'react-navigation'
 
 import {
   View,
@@ -10,10 +11,10 @@ const Dummy = (props) => {
   return(
     <View>
       <TouchableOpacity>
-        <Text>Test</Text>
+        <Text>{props.navigation.state.params.data}</Text>
       </TouchableOpacity>
     </View>
   )
 }
 
-export default Dummy
+export default withNavigation(Dummy)

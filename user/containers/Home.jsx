@@ -55,7 +55,7 @@ const Home = (props) => {
           top: 0,
           right: 0,
           marginRight: 20,
-          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 20
+          paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight + 20 : 20
         }}
       >
         {
