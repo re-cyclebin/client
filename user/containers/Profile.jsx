@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -109,7 +110,7 @@ const Profile = (props) => {
           >History</Text>
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           marginTop: 20
         }}
@@ -154,7 +155,66 @@ const Profile = (props) => {
             </TouchableOpacity>
           ))
         }
-      </View>
+      </View> */}
+      <SwipeListView
+        data={list}
+        disableRightSwipe={true}
+        closeOnRowOpen={true}
+        stopLeftSwipe={35}
+        closeOnRowBeginSwipe={true}
+        renderItem={ (data, rowMap) => (
+          <View
+            key={data.index}
+            activeOpacity={0.6}
+            style={{
+              marginBottom: 20,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              paddingBottom: 20,
+              borderBottomWidth: 0.5,
+              borderColor: '#a2a7aa',
+              backgroundColor: 'white'
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: '#31B057',
+                padding: 9,
+                borderRadius: 18,
+                marginRight: 15
+              }}
+            >
+              <FontAwesome5 name={'leaf'} style={{ fontSize: 25 }}/>
+            </View>
+            <View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: '500'
+                }}
+              >Point: {data.item}</Text>
+              <Text
+                style={{
+                  marginTop: 10
+                }}
+              >20 Des 2019</Text>
+            </View>
+          </View>
+        )}
+        renderHiddenItem={ (data, rowMap) => (
+          <TouchableOpacity
+            key={data.index}
+            style={{
+              flexDirection: 'row-reverse',
+              alignItems: 'center',
+            }}
+          >
+            <FontAwesome5 name={'trash-alt'} style={{ fontSize: 20, color: 'red'}}/>
+          </TouchableOpacity>
+        )}
+        leftOpenValue={75}
+        rightOpenValue={-75}
+        />
     </ScrollView>
   )
 }
