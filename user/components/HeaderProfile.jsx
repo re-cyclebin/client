@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -9,10 +9,21 @@ import {
   Platform,
   StatusBar,
   TouchableOpacity,
-  FlatList
+  AsyncStorage
 } from 'react-native'
 
 const HeaderProfile = (props) => {
+  const [username, setUsername] = useState('default')
+
+  const asyncUsername = async () => {
+    const username = await AsyncStorage.getItem('username')
+    setUsername(username)
+  }
+
+  useEffect(() => {
+    asyncUsername()
+  })
+
   return(
     <SafeAreaView
       style={{
@@ -35,7 +46,7 @@ const HeaderProfile = (props) => {
             fontWeight: '600'
           }}
         >
-          Username
+          {username}
         </Text>
         <TouchableOpacity
           activeOpacity={0.6}

@@ -34,8 +34,8 @@ const ListMap = (props) => {
         }}
         camera={{
           center: {
-            latitude: -6.261861,
-            longitude: 106.783890
+            latitude: Number(props.trash.location.latitude),
+            longitude: Number(props.trash.location.longitude)
           },
           pitch: 0,
           heading: 0,
@@ -45,8 +45,8 @@ const ListMap = (props) => {
       >
         <Marker 
           coordinate={{
-            latitude: -6.261861,
-            longitude: 106.783890
+            latitude: Number(props.trash.location.latitude),
+            longitude: Number(props.trash.location.longitude)
           }}
           onPress={() => props.navigation.navigate('Detail')}
         >

@@ -55,6 +55,7 @@ const ProcessAdd = (props) => {
               alignItems: 'center',
               width: '100%'
             }}
+            onPress={() => props.navigation.navigate('Waiting')}
           >
             <Text
               style={{

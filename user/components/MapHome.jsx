@@ -32,6 +32,51 @@ const MapHome = (props) => {
 
   const [destination, setDestination] = useState({})
 
+  const AllMarker = () => {
+    if(props.trashes.data){
+      return (
+        props.trashes.data.AllTrash.map(trash => (
+          <Marker
+            key={trash._id}
+            coordinate={{
+              latitude: Number(trash.location.latitude),
+              longitude: Number(trash.location.longitude)
+            }}
+            // onPress={() => props.navigation.navigate('Detail')}
+            onPress={() => setDestination({
+              latitude: Number(trash.location.latitude),
+              longitude: Number(trash.location.longitude)
+            })}
+          >
+            <View>
+              {
+                trash.avaible
+                ? (
+                  <Image 
+                    source={require('../assets/trueTrash.png')}
+                    style={{
+                      width: 20,
+                      height: 40
+                    }}
+                  />
+                )
+                : (
+                  <Image 
+                    source={require('../assets/trash.png')}
+                    style={{
+                      width: 20,
+                      height: 40
+                    }}
+                  />
+                )
+              }
+            </View>
+          </Marker>
+        ))
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar 
@@ -51,37 +96,8 @@ const MapHome = (props) => {
           zoom: 14
         }}
       >
-        <Marker 
-          coordinate={loc2}
-          // onPress={() => props.navigation.navigate('Detail')}
-          onPress={() => setDestination(loc2)}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
-          </View>
-        </Marker>
-        <Marker 
-          coordinate={loc1}
-          // onPress={() => props.navigation.navigate('Detail')}
-          onPress={() => setDestination(loc1)}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
-          </View>
-        </Marker>
-        {/* <MapViewDirections
+        <AllMarker />
+        <MapViewDirections
           origin={{
             latitude: -6.2607917,
             longitude: 106.7810557
@@ -90,7 +106,7 @@ const MapHome = (props) => {
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#3997F0"
-        /> */}
+        />
       </MapView>
     </View>
   )

@@ -26,7 +26,8 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native'
 
 const Login = (props) => {
@@ -34,6 +35,16 @@ const Login = (props) => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const cekToken = async () => {
+    if(await AsyncStorage.getItem('token')){
+      props.navigation.navigate('tabNav')
+    }
+  }
+
+  useEffect(() => {
+    cekToken()
+  })
 
   const Error = () => {
     return(
@@ -48,18 +59,22 @@ const Login = (props) => {
     )
   }
 
-  const [loginUser, { data }] = useMutation(LOGIN)
+  const [loginUser] = useMutation(LOGIN)
 
   const login = async () => {
     try{
       setIsLoading(true)
-      await loginUser({
+      const {data} = await loginUser({
         variables: {
           request,
           password
         }
       })
       setIsLoading(false)
+      // console.log(data.signin.token)
+      // console.log(data.signin.user.username)
+      await AsyncStorage.setItem('token', data.signin.token)
+      await AsyncStorage.setItem('username', data.signin.user.username)
       props.navigation.navigate('tabNav')
     }
     catch(err) {
