@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+import moment from "moment";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -12,11 +15,41 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native'
+
+const GET_HISTORY = gql`
+  query($token: String) {
+    UserHistory(token: $token) {
+      _id
+      point
+      UserId
+      createdAt
+    }
+  }
+`
 
 const Profile = (props) => {
   const [list, setList] = useState([1,2,3,4,5,6,7,8,9])
+  const [token, setToken] = useState('')
+  const [point, setPoint] = useState(0)
+  const [reward, setReward] = useState(0)
+  const [getHistories, { data }] = useLazyQuery(GET_HISTORY, {
+    variables: {
+      token
+    }
+  })
+
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('token')
+    setToken(token)
+    getHistories()
+  }
+  
+  useEffect(() => {
+    getToken()
+  }, [])
 
   return(
     <ScrollView
@@ -54,40 +87,51 @@ const Profile = (props) => {
             flexDirection: 'row'
           }}
         >
-          <View
-            style={{
-              alignItems: 'center',
-              marginRight: 20
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-              }}
-            >220</Text>
-            <Text
-              style={{
-                fontSize: 18,
-              }}
-            >Point</Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              marginLeft: 20
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-              }}
-            >20</Text>
-            <Text
-              style={{
-                fontSize: 18,
-              }}
-            >Reward</Text>
-          </View>
+         
+            {
+              data
+              ? (
+                <>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    marginRight: 20
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                    }}
+                  >{point}</Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                    }}
+                  >Point</Text>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    marginLeft: 20
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                    }}
+                  >{reward}</Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                    }}
+                  >Reward</Text>
+                </View>
+                </>
+              )
+              : (
+                <ActivityIndicator />
+              )
+            }
         </View>
       </View>
       <View
@@ -157,67 +201,74 @@ const Profile = (props) => {
           ))
         }
       </View> */}
-      <SwipeListView
-        style={{
-          marginTop: 20
-        }}
-        data={list}
-        disableRightSwipe={true}
-        closeOnRowOpen={true}
-        stopLeftSwipe={35}
-        closeOnRowBeginSwipe={true}
-        renderItem={ (data, rowMap) => (
-          <View
-            key={data.index}
-            style={{
-              marginBottom: 20,
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              paddingBottom: 20,
-              borderBottomWidth: 0.5,
-              borderColor: '#a2a7aa',
-              backgroundColor: 'white'
-            }}
-          >
+      {
+        data
+        ? (
+          <SwipeListView
+          style={{
+            marginTop: 20
+          }}
+          data={data.UserHistory}
+          disableRightSwipe={true}
+          closeOnRowOpen={true}
+          stopLeftSwipe={35}
+          closeOnRowBeginSwipe={true}
+          renderItem={ (data, rowMap) => (
             <View
+              key={data.item._id}
               style={{
-                backgroundColor: '#31B057',
-                padding: 9,
-                borderRadius: 18,
-                marginRight: 15
+                marginBottom: 20,
+                flexDirection: 'row',
+                alignItems: 'flex-start',
+                paddingBottom: 20,
+                borderBottomWidth: 0.5,
+                borderColor: '#a2a7aa',
+                backgroundColor: 'white'
               }}
             >
-              <FontAwesome5 name={'leaf'} style={{ fontSize: 25, color: 'white' }}/>
-            </View>
-            <View>
-              <Text
+              <View
                 style={{
-                  fontSize: 18,
-                  fontWeight: '500'
+                  backgroundColor: '#31B057',
+                  padding: 9,
+                  borderRadius: 18,
+                  marginRight: 15
                 }}
-              >Point: {data.item}</Text>
-              <Text
-                style={{
-                  marginTop: 10
-                }}
-              >20 Des 2019</Text>
+              >
+                <FontAwesome5 name={'leaf'} style={{ fontSize: 25 }}/>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: '500'
+                  }}
+                >Point: {data.item.point}</Text>
+                <Text
+                  style={{
+                    marginTop: 10
+                  }}
+              >{moment(data.item.createdAt).calendar()}</Text>
+              </View>
             </View>
-          </View>
-        )}
-        renderHiddenItem={ (data, rowMap) => (
-          <TouchableOpacity
-            key={data.index}
-            style={{
-              flexDirection: 'row-reverse',
-              alignItems: 'center',
-            }}
-          >
-            <FontAwesome5 name={'trash-alt'} style={{ fontSize: 20, color: 'red'}}/>
-          </TouchableOpacity>
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-        />
+          )}
+          renderHiddenItem={ (data, rowMap) => (
+            <TouchableOpacity
+              key={data.item._id}
+              style={{
+                flexDirection: 'row-reverse',
+                alignItems: 'center',
+              }}
+            >
+              <FontAwesome5 name={'trash-alt'} style={{ fontSize: 20, color: 'red'}}/>
+            </TouchableOpacity>
+          )}
+          leftOpenValue={75}
+          rightOpenValue={-75}
+          />
+        )
+        : <ActivityIndicator style={{marginTop: 20}} />
+      }
+      
     </ScrollView>
   )
 }
