@@ -32,6 +32,51 @@ const MapHome = (props) => {
 
   const [destination, setDestination] = useState({})
 
+  const AllMarker = () => {
+    if(props.trashes.data){
+      return (
+        props.trashes.data.AllTrash.map(trash => (
+          <Marker
+            key={trash._id}
+            coordinate={{
+              latitude: Number(trash.location.latitude),
+              longitude: Number(trash.location.longitude)
+            }}
+            // onPress={() => props.navigation.navigate('Detail')}
+            onPress={() => setDestination({
+              latitude: Number(trash.location.latitude),
+              longitude: Number(trash.location.longitude)
+            })}
+          >
+            <View>
+              {
+                trash.avaible
+                ? (
+                  <Image 
+                    source={require('../assets/trueTrash.png')}
+                    style={{
+                      width: 20,
+                      height: 40
+                    }}
+                  />
+                )
+                : (
+                  <Image 
+                    source={require('../assets/trash.png')}
+                    style={{
+                      width: 20,
+                      height: 40
+                    }}
+                  />
+                )
+              }
+            </View>
+          </Marker>
+        ))
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar 
@@ -40,8 +85,8 @@ const MapHome = (props) => {
       <MapView style={styles.mapStyle} 
         camera={{
           center: {
-            // latitude: location ? location.latitude : -6.2607917,
-            // longitude: location ? location.longitude : 106.7810557
+            // latitude: props.location ? props.location.latitude : -6.2607917,
+            // longitude: props.location ? props.location.longitude : 106.7810557
             latitude: -6.2607917,
             longitude: 106.7810557
           },
@@ -51,36 +96,7 @@ const MapHome = (props) => {
           zoom: 14
         }}
       >
-        <Marker 
-          coordinate={loc2}
-          // onPress={() => props.navigation.navigate('Detail')}
-          onPress={() => setDestination(loc2)}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
-          </View>
-        </Marker>
-        <Marker 
-          coordinate={loc1}
-          // onPress={() => props.navigation.navigate('Detail')}
-          onPress={() => setDestination(loc1)}
-        >
-          <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
-          </View>
-        </Marker>
+        <AllMarker />
         {/* <MapViewDirections
           origin={{
             latitude: -6.2607917,

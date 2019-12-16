@@ -26,15 +26,14 @@ const stackHome = createStackNavigator({
     navigationOptions: {
       headerShown: false
     }
-  },
-  Detail
+  }
 })
 
 const stackProfile = createStackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
-      header: <HeaderProfile />
+      header:({navigation}) => <HeaderProfile navigation={navigation} />
     }
   }
 })
@@ -53,7 +52,7 @@ const stackAdd = createStackNavigator({
     }
   }
 }, {
-  initialRouteName: 'ConfirmationAddTrash'
+  initialRouteName: 'Add'
 })
 
 const tabNav = createBottomTabNavigator({
@@ -79,7 +78,7 @@ const tabNav = createBottomTabNavigator({
     }
   },
 }, {
-  initialRouteName: 'stackAdd',
+  initialRouteName: 'stackHome',
   tabBarOptions: {
     activeTintColor: '#468847'
   }
@@ -94,7 +93,7 @@ const switchNav = createSwitchNavigator({
   Waiting,
   Point
 }, {
-  initialRouteName: 'tabNav'
+  initialRouteName: 'Login'
 })
 
 export default createAppContainer(switchNav)

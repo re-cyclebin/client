@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -9,10 +9,22 @@ import {
   Platform,
   StatusBar,
   TouchableOpacity,
-  FlatList
+  AsyncStorage,
+  Alert,
 } from 'react-native'
 
 const HeaderProfile = (props) => {
+  const [username, setUsername] = useState('default')
+
+  const asyncUsername = async () => {
+    const username = await AsyncStorage.getItem('username')
+    setUsername(username)
+  }
+
+  useEffect(() => {
+    asyncUsername()
+  })
+
   return(
     <SafeAreaView
       style={{
@@ -35,13 +47,25 @@ const HeaderProfile = (props) => {
             fontWeight: '600'
           }}
         >
-          Username
+          {username}
         </Text>
         <TouchableOpacity
           activeOpacity={0.6}
           style={{
             alignItems: 'center'
           }}
+          onPress={() => (Alert.alert(
+            'Logout',
+            'Are you sure?',
+            [
+              {text: 'Cancel', onPress: () => console.log('cancel')},
+              {text: 'Logout', onPress: async () => {
+                await AsyncStorage.removeItem('token')
+                await AsyncStorage.removeItem('username')
+                props.navigation.navigate('Login')
+              }}
+            ]
+          ))}
         >
           <FontAwesome5 name={'sign-out-alt'} style={{ fontSize: 20}}/>
         </TouchableOpacity>

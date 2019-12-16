@@ -1,5 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import axiosServer from '../configs/axiosServer'
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+const LOGIN = gql`
+  mutation (
+  $request: String, 
+  $password: String
+) {
+    signin (request: $request, password: $password){
+      user {
+        username
+        role
+      }
+      token
+    }
+  }
+`;
 
 import {
   StyleSheet,
@@ -9,14 +26,26 @@ import {
   StatusBar,
   Platform,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native'
-
 
 const Login = (props) => {
   const [request, setRequest] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const cekToken = async () => {
+    if(await AsyncStorage.getItem('token')){
+      props.navigation.navigate('tabNav')
+    }
+  }
+
+  useEffect(() => {
+    cekToken()
+  })
 
   const Error = () => {
     return(
@@ -31,24 +60,40 @@ const Login = (props) => {
     )
   }
 
+  const [loginUser] = useMutation(LOGIN)
+
   const login = async () => {
     try{
-      const { data } = await axiosServer({
-        url: '/signin',
-        method: 'post',
-        data: {
+      setIsLoading(true)
+      const {data} = await loginUser({
+        variables: {
           request,
           password
         }
       })
-      console.log(data)
+      setIsLoading(false)
+      // console.log(data.signin.token)
+      // console.log(data.signin.user.username)
+      console.log(data.signin.user.role)
+      if(data.signin.user.role == 'user') {
+        await AsyncStorage.setItem('token', data.signin.token)
+        await AsyncStorage.setItem('username', data.signin.user.username)
+        props.navigation.navigate('tabNav')
+      }
+      else {
+        setTimeout(() => {
+          setError('')
+        }, 2000)
+        setError('Only user can login')
+      }
     }
     catch(err) {
+      setIsLoading(false)
+      console.log(err.graphQLErrors[0].message)
       setTimeout(() => {
         setError('')
       }, 2000)
-      console.log(err.response.data.msg)
-      setError(err.response.data.msg)
+      setError(err.graphQLErrors[0].message)
     }
   }
 
@@ -66,7 +111,7 @@ const Login = (props) => {
           color: '#286d28'
         }}
       >
-        BossRecycle
+        Boostle
       </Text>
       <TextInput 
         value={request}
@@ -103,13 +148,19 @@ const Login = (props) => {
                 styles.buttonLogin
               }
             >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 18,
-                  fontWeight: '600'
-                }}
-              >Log in</Text>
+              {
+                !isLoading
+                ? (
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 18,
+                      fontWeight: '600'
+                    }}
+                  >Log in</Text>
+                )
+                : <ActivityIndicator color='white' />
+              }
             </TouchableOpacity>
           )
           : (
@@ -134,28 +185,34 @@ const Login = (props) => {
               styles.buttonLoginDisable
             }
           >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 18,
-                fontWeight: '600'
-              }}
-            >Log in</Text>
+            {
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 18,
+                  fontWeight: '600'
+                }}
+              >Log in</Text>
+            }
           </View>
         )
       }
 
       {
-        error 
+        error
         ? <Error />
-        : <Text></Text>
+        : <Text
+          style={{
+            color: 'white',
+            marginTop: 20,
+          }}> test </Text>
       }
 
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: 40
+          marginTop: 20
         }}
       >
         <Text

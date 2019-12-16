@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 import MapView, { Marker } from 'react-native-maps';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -17,16 +19,43 @@ import {
   Image,
   SafeAreaView,
   Platform,
-  StatusBar
+  StatusBar,
+  AsyncStorage
 } from 'react-native'
+
+const FETCH_TRASH = gql`
+  query($token: String) {
+    AllTrash(token: $token) {
+      _id
+      location {
+        latitude
+        longitude
+      }
+      avaible
+    }
+  }
+`
 
 const Home = (props) => {
 
   const [location, setLocation] = useState('')
   const [view, setView] = useState('map')
+  const [token , setToken] = useState('')
+  const [fetchTrashes, trashes] = useLazyQuery(FETCH_TRASH, {
+    variables: {
+      token
+    }
+  })
+
+  const asyncStorage = async () => {
+    const token = await AsyncStorage.getItem('token')
+    setToken(token)
+    await fetchTrashes()
+  }
 
   useEffect(() => {
     permission()
+    asyncStorage()
   }, [])
 
   const permission = async () => {
@@ -42,10 +71,12 @@ const Home = (props) => {
       {
         view == 'map'
         ? (
-          <MapHome location={location} />
+          trashes.data
+          ? <MapHome location={location} trashes={trashes} />
+          : <Text>test</Text>
         )
         : (
-          <ListHome location={location}/>
+          <ListHome location={location} trashes={trashes} />
         )
       }
       

@@ -29,8 +29,17 @@ const ListHome = (props) => {
           minHeight: '100%'
         }}
       >
-        <ListMap location={props.location}/>
-        <ListMap location={props.location}/>
+        {
+          props.trashes.data
+          ? (
+            props.trashes.data.AllTrash.map(trash => (
+              <ListMap location={props.location} trash={trash} key={trash._id}/>
+            ))
+          )
+          : (
+            <Text>Loading...</Text>
+          )
+        }
 
       </ScrollView>
     </SafeAreaView>
