@@ -26,15 +26,14 @@ const stackHome = createStackNavigator({
     navigationOptions: {
       headerShown: false
     }
-  },
-  Detail
+  }
 })
 
 const stackProfile = createStackNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
-      header: <HeaderProfile />
+      header:({navigation}) => <HeaderProfile navigation={navigation} />
     }
   }
 })

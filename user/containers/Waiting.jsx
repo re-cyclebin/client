@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { withNavigation } from 'react-navigation'
+import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import {
   View,
@@ -11,6 +11,11 @@ const Waiting = (props) => {
   const [loading, setLoading] = useState('Please Wait...')
   const [count, setCount] = useState(0)
 
+  useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate('Point')
+    }, 2000)
+  }, [])
   return (
     <View
       style={{
@@ -26,13 +31,15 @@ const Waiting = (props) => {
           resizeMode: 'contain'
         }}
       />
-      <Text
-        style={{
-          fontSize: 18,
-          marginTop: 20,
-          fontWeight: '600'
-        }}
-      >{loading}</Text>
+      <View>
+        <Text
+          style={{
+            fontSize: 18,
+            marginTop: 20,
+            fontWeight: '600'
+          }}
+        >{loading} </Text>
+      </View>
       <Text
         style={{
           marginTop: 10,
@@ -44,4 +51,4 @@ const Waiting = (props) => {
   )
 }
 
-export default withNavigation(Waiting)
+export default Waiting

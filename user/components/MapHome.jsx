@@ -85,8 +85,8 @@ const MapHome = (props) => {
       <MapView style={styles.mapStyle} 
         camera={{
           center: {
-            // latitude: location ? location.latitude : -6.2607917,
-            // longitude: location ? location.longitude : 106.7810557
+            // latitude: props.location ? props.location.latitude : -6.2607917,
+            // longitude: props.location ? props.location.longitude : 106.7810557
             latitude: -6.2607917,
             longitude: 106.7810557
           },
@@ -97,7 +97,7 @@ const MapHome = (props) => {
         }}
       >
         <AllMarker />
-        <MapViewDirections
+        {/* <MapViewDirections
           origin={{
             latitude: -6.2607917,
             longitude: 106.7810557
@@ -106,7 +106,7 @@ const MapHome = (props) => {
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="#3997F0"
-        />
+        /> */}
       </MapView>
     </View>
   )

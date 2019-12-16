@@ -1,5 +1,4 @@
 import React from 'react'
-import { withNavigation } from 'react-navigation'
 
 import {
   View,
@@ -55,7 +54,7 @@ const ProcessAdd = (props) => {
               alignItems: 'center',
               width: '100%'
             }}
-            onPress={() => props.navigation.navigate('Waiting')}
+            onPress={() => props.navigation.navigate('Waiting') }
           >
             <Text
               style={{
@@ -71,4 +70,4 @@ const ProcessAdd = (props) => {
   )
 }
 
-export default withNavigation(ProcessAdd)
+export default ProcessAdd

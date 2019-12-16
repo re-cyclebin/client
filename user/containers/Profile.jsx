@@ -86,7 +86,7 @@ const Profile = (props) => {
               style={{
                 fontSize: 18,
               }}
-            >Award</Text>
+            >Reward</Text>
           </View>
         </View>
       </View>
@@ -158,6 +158,9 @@ const Profile = (props) => {
         }
       </View> */}
       <SwipeListView
+        style={{
+          marginTop: 20
+        }}
         data={list}
         disableRightSwipe={true}
         closeOnRowOpen={true}
@@ -166,7 +169,6 @@ const Profile = (props) => {
         renderItem={ (data, rowMap) => (
           <View
             key={data.index}
-            activeOpacity={0.6}
             style={{
               marginBottom: 20,
               flexDirection: 'row',

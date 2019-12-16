@@ -11,6 +11,7 @@ const LOGIN = gql`
     signin (request: $request, password: $password){
       user {
         username
+        role
       }
       token
     }
@@ -73,9 +74,18 @@ const Login = (props) => {
       setIsLoading(false)
       // console.log(data.signin.token)
       // console.log(data.signin.user.username)
-      await AsyncStorage.setItem('token', data.signin.token)
-      await AsyncStorage.setItem('username', data.signin.user.username)
-      props.navigation.navigate('tabNav')
+      console.log(data.signin.user.role)
+      if(data.signin.user.role == 'user') {
+        await AsyncStorage.setItem('token', data.signin.token)
+        await AsyncStorage.setItem('username', data.signin.user.username)
+        props.navigation.navigate('tabNav')
+      }
+      else {
+        setTimeout(() => {
+          setError('')
+        }, 2000)
+        setError('Only user can login')
+      }
     }
     catch(err) {
       setIsLoading(false)

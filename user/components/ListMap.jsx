@@ -48,7 +48,6 @@ const ListMap = (props) => {
             latitude: Number(props.trash.location.latitude),
             longitude: Number(props.trash.location.longitude)
           }}
-          onPress={() => props.navigation.navigate('Detail')}
         >
           <View>
             <Image 

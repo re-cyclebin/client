@@ -9,7 +9,8 @@ import {
   Platform,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  Alert,
 } from 'react-native'
 
 const HeaderProfile = (props) => {
@@ -53,6 +54,18 @@ const HeaderProfile = (props) => {
           style={{
             alignItems: 'center'
           }}
+          onPress={() => (Alert.alert(
+            'Logout',
+            'Are you sure?',
+            [
+              {text: 'Cancel', onPress: () => console.log('cancel')},
+              {text: 'Logout', onPress: async () => {
+                await AsyncStorage.removeItem('token')
+                await AsyncStorage.removeItem('username')
+                props.navigation.navigate('Login')
+              }}
+            ]
+          ))}
         >
           <FontAwesome5 name={'sign-out-alt'} style={{ fontSize: 20}}/>
         </TouchableOpacity>

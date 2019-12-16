@@ -50,7 +50,6 @@ const Home = (props) => {
   const asyncStorage = async () => {
     const token = await AsyncStorage.getItem('token')
     setToken(token)
-    console.log(token, '======')
     await fetchTrashes()
   }
 
