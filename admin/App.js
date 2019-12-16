@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
 import Navigation from './navigation'
+import client from './graph/client'
+import { ApolloProvider } from '@apollo/react-hooks';
 
-export default function App() {
-  return (
-    <Navigation />
-  );
-}
+export default () => (
+  <ApolloProvider client={client}>
+    <Navigation/>
+  </ApolloProvider>
+)

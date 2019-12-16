@@ -1,0 +1,49 @@
+import { gql } from 'apollo-boost';
+
+export const MUTATION_SIGNIN_ADMIN = gql`
+  mutation signin ($request:String, $password:String){
+    signin(request:$request, password:$password){
+      user {
+        _id
+        username
+        email
+        role
+      }
+      token
+    }
+  }
+`
+
+export const MUTATION_UPDATE_LOCATION_ADMIN = gql`
+  mutation updateLocation ($token:String, $id: String, $longitude:String, $latitude:String){
+    updateTrashLocation (token:$token, id:$id, longitude:$longitude, latitude:$latitude){
+      location{
+        longitude
+        latitude
+      }
+      _id
+      avaible
+    }
+  }
+`
+
+export const MUTATION_DELETE_LOCATION_ADMIN = gql`
+  mutation deleteTrashCan ($token:String, $id: String) {
+    deleteTrash(token:$token, id:$id) {
+      msg
+    }
+  }
+`
+
+export const MUTATION_CREATE_NEW_TRASH = gql`
+  mutation createTrashCan ($token:String, $longitude: String, $latitude:String) {
+    makeTrash(token:$token, latitude:$latitude, longitude:$longitude) {
+      location{
+        longitude
+        latitude
+      }
+      _id
+      avaible
+    }
+  }
+`
