@@ -28,8 +28,13 @@ export default ({ navigation }) => {
         variables: { request, password }
       })
       await AsyncStorage.setItem('token', data.signin.token)
-      const token = await AsyncStorage.getItem('token');
-      navigation.navigate('tabNav', token)
+      // const token = await AsyncStorage.getItem('token');
+      if(data.signin.user.role === 'admin') {
+        navigation.navigate('tabNavAdmin')
+      }
+      else if(data.signin.user.role === 'puller'){
+        navigation.navigate('tabNavPuller')
+      }
     }catch({ graphQLErrors }) { setError(graphQLErrors); setTimeout(() => {
       setError('')
     }, 2000); }
@@ -39,7 +44,7 @@ export default ({ navigation }) => {
   ?
   (data.UserSignin.role == 'admin') ? navigation.navigate('tabNavAdmin')
   :
-  null //disini kondisi puller
+  navigation.navigate('tabNavPuller') //disini kondisi puller
   :
   null
   
