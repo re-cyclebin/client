@@ -25,6 +25,7 @@ const ListHome = (props) => {
       }}
     >
       <ScrollView 
+        showsVerticalScrollIndicator={false}
         style={{
           minHeight: '100%'
         }}

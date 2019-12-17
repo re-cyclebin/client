@@ -94,9 +94,9 @@ const Home = (props) => {
           ? (
             <TouchableOpacity
               style={{
-                padding: 8,
+                padding: 10,
                 borderRadius: 8,
-                backgroundColor: 'white'
+                backgroundColor: '#30b057'
               }}
               activeOpacity={0.6}
               onPress={() => setView('list')}
@@ -105,7 +105,8 @@ const Home = (props) => {
                 name={'list-ul'} 
                 solid
                 style={{
-                  fontSize: 17
+                  fontSize: 18,
+                  color: 'white'
                 }}
               />
             </TouchableOpacity>
@@ -113,9 +114,9 @@ const Home = (props) => {
           : (
             <TouchableOpacity
               style={{
-                padding: 8,
+                padding: 10,
                 borderRadius: 8,
-                backgroundColor: 'black'
+                backgroundColor: '#30b057'
               }}
               activeOpacity={0.6}
               onPress={() => setView('map')}

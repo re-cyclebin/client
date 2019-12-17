@@ -3,20 +3,39 @@ import axiosServer from '../configs/axiosServer'
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-const LOGIN = gql`
+const REGISTER = gql`
   mutation (
-  $request: String, 
-  $password: String
-) {
-    signin (request: $request, password: $password){
-      user {
-        username
-        role
-      }
-      token
+    $username: String, 
+    $password: String,
+    $email: String
+    
+  ) {
+    signup(
+      username: $username,
+      password: $password,
+      email: $email
+    ){
+      _id
+      username
+      password
     }
   }
 `;
+
+const LOGIN = gql`
+  mutation (
+    $request: String, 
+    $password: String
+  ) {
+      signin (request: $request, password: $password){
+        user {
+          username
+          role
+        }
+        token
+      }
+    }
+`
 
 import {
   StyleSheet,
@@ -31,8 +50,9 @@ import {
   AsyncStorage
 } from 'react-native'
 
-const Login = (props) => {
-  const [request, setRequest] = useState('')
+const Register = (props) => {
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -43,9 +63,9 @@ const Login = (props) => {
     }
   }
 
-  useEffect(() => {
-    cekToken()
-  })
+  // useEffect(() => {
+  //   cekToken()
+  // })
 
   const Error = () => {
     return(
@@ -60,14 +80,23 @@ const Login = (props) => {
     )
   }
 
+  const [registerUser] = useMutation(REGISTER)
   const [loginUser] = useMutation(LOGIN)
 
-  const login = async () => {
+  const register = async () => {
     try{
       setIsLoading(true)
-      const {data} = await loginUser({
+      const { data: dataRegister } = await registerUser({
         variables: {
-          request,
+          email,
+          username,
+          password
+        }
+      })
+      console.log(dataRegister)
+      const { data } = await loginUser({
+        variables: {
+          request: dataRegister.signup.username,
           password
         }
       })
@@ -89,7 +118,7 @@ const Login = (props) => {
     }
     catch(err) {
       setIsLoading(false)
-      console.log(err.graphQLErrors[0].message)
+      console.log(err)
       setTimeout(() => {
         setError('')
       }, 2000)
@@ -114,12 +143,23 @@ const Login = (props) => {
         Boostle
       </Text>
       <TextInput 
-        value={request}
-        onChangeText={(value) => setRequest(value)}
+        value={username}
+        onChangeText={(value) => setUsername(value)}
         style={
           styles.textInput
         }
-        placeholder={'Email/Username'}
+        placeholder={'Username'}
+        placeholderTextColor={'#9F9F9F'}
+        autoCorrect={false}
+        autoCapitalize='none'
+      />
+      <TextInput 
+        value={email}
+        onChangeText={(value) => setEmail(value)}
+        style={
+          styles.textInput
+        }
+        placeholder={'Email'}
         placeholderTextColor={'#9F9F9F'}
         autoCorrect={false}
         autoCapitalize='none'
@@ -137,10 +177,10 @@ const Login = (props) => {
         secureTextEntry={true}
       />
       {
-        (request && password) 
+        (email && username && password)
         ? (
           <TouchableOpacity
-          onPress={() => login()}
+            onPress={() => register()}
             activeOpacity={0.7}
             style={
               styles.buttonLogin
@@ -155,7 +195,7 @@ const Login = (props) => {
                     fontSize: 18,
                     fontWeight: '600'
                   }}
-                >Log in</Text>
+                >Sign Up</Text>
               )
               : <ActivityIndicator color='white' />
             }
@@ -174,7 +214,7 @@ const Login = (props) => {
                   fontSize: 18,
                   fontWeight: '600'
                 }}
-              >Log in</Text>
+              >Sign Up</Text>
             }
           </View>
         )
@@ -202,17 +242,17 @@ const Login = (props) => {
             marginRight: 3
           }}
         >
-          Don't have an account? 
+          Already have an account? 
         </Text>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Register')}
+          onPress={() => props.navigation.navigate('Login')}
         >
           <Text
             style={{
               color: '#468847',
               fontWeight: '600'
             }}
-          >Sign up.</Text>
+          >Log in.</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -259,4 +299,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+export default Register

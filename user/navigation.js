@@ -15,6 +15,7 @@ import ConfirmationAddTrash from './containers/ConfirmationAddTrash'
 import ProcessAdd from './containers/ProcessAdd'
 import Waiting from './containers/Waiting'
 import Point from './containers/Point'
+import Register from './containers/Register'
 import Dummy from './containers/Dummy'
 
 import HeaderProfile from './components/HeaderProfile'
@@ -91,7 +92,8 @@ const switchNav = createSwitchNavigator({
   tabNav,
   ProcessAdd,
   Waiting,
-  Point
+  Point,
+  Register
 }, {
   initialRouteName: 'Login'
 })
