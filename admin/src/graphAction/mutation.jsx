@@ -23,6 +23,8 @@ export const MUTATION_UPDATE_LOCATION_ADMIN = gql`
       }
       _id
       avaible
+      createdAt
+      updatedAt
     }
   }
 `
@@ -44,6 +46,28 @@ export const MUTATION_CREATE_NEW_TRASH = gql`
       }
       _id
       avaible
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export const MUTATION_DELETE_HISTORY = gql`
+  mutation deleteHistoryAdmin ($token: String, $id:String){
+    deleteHistory (token:$token, id:$id){
+      msg
+    }
+  }
+`
+
+
+export const MUTATION_CREATE_NEW_MEMBER = gql`
+  mutation createNewMember ($token: String, $username: String, $role: String, $password: String, $email: String) {
+    signup(token:$token, username:$username, role:$role, password: $password, email:$email){
+      _id
+      username
+      email
+      role
     }
   }
 `

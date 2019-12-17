@@ -35,3 +35,8 @@ const styles = StyleSheet.create({
     opacity: 100
   }
 })
+
+
+export const EmptyComponent = () => (
+  <ImageBackground source={{ uri: 'https://img.icons8.com/material/4ac144/256/search.png' }} style={{ height: '100%', width: '100%' }} />
+)

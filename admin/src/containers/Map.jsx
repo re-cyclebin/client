@@ -40,7 +40,7 @@ export default ({ navigation }) => {
 
   if(loading) return <LoadingComponent />
   if(error) return <ErrorComponent />
-  if(create.loading) return <LoadingComponent />
+  // if(create.loading) return <LoadingComponent />
 
   return (
     <MapView 
@@ -56,7 +56,6 @@ latitude: ${nativeEvent.coordinate.latitude}`,
           ],
           { cancelable: false }
         )
-        console.log(nativeEvent.coordinate)
       }}
       camera={{
         center: {

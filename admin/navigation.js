@@ -1,5 +1,4 @@
 import React from 'react'
-import { Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
@@ -9,10 +8,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Home from './src/containers/Home'
 import Signin from './src/containers/Signin';
-import Map from './src/containers/Map';
+import MapAdmin from './src/containers/Map';
 import HistoryAdmin from './src/containers/HistoryAdmin';
 import EmptyBin from './src/containers/EmptyBin';
 import ConfirmationPage from './src/containers/ConfirmationPage';
+import NewMember from './src/containers/NewMember';
+
 import HomePull from './src/containers/HomePuller';
 import Waiting from './src/containers/Waiting'
 
@@ -28,7 +29,7 @@ const stackHome = createStackNavigator({
 })
 
 const stackCreate = createStackNavigator({
-  Map: { screen: Map, navigationOptions: {
+  Map: { screen: MapAdmin, navigationOptions: {
     title: 'Choose Location',
     headerTransparent: true
   }},
@@ -61,14 +62,22 @@ const tabNavAdmin = createBottomTabNavigator({
       title: 'Home',
     },
   },
-  AddTrash: { screen: stackCreate, navigationOptions: {
-     tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'plus'} style={{ fontSize: 20, color: tintColor}}/>
-  }},
+  AddTrash: {
+    screen: stackCreate,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'plus'} style={{ fontSize: 20, color: tintColor}}/>,
+      title: 'Add Trash',
+    },
+  },
   History: { screen: HistoryAdmin, navigationOptions: {
     tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'history'} style={{ fontSize: 20, color: tintColor}}/>
+  }},
+  NewMember: { screen: NewMember, navigationOptions: {
+    tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'user'} style={{ fontSize: 20, color: tintColor }} />,
+    title: 'Member'
   }}
 }, {
-  initialRouteName: 'AddTrash',
+  initialRouteName: 'NewMember',
   tabBarOptions: {
     activeTintColor: '#468847'
   }

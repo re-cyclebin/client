@@ -28,7 +28,6 @@ export default ({ navigation }) => {
         variables: { request, password }
       })
       await AsyncStorage.setItem('token', data.signin.token)
-      // const token = await AsyncStorage.getItem('token');
       if(data.signin.user.role === 'admin') {
         navigation.navigate('tabNavAdmin')
       }
@@ -44,7 +43,7 @@ export default ({ navigation }) => {
   ?
   (data.UserSignin.role == 'admin') ? navigation.navigate('tabNavAdmin')
   :
-  navigation.navigate('tabNavPuller') //disini kondisi puller
+  navigation.navigate('tabNavPuller')
   :
   null
   
