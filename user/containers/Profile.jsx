@@ -64,7 +64,8 @@ const Profile = (props) => {
   const [getLogin, { data : userData }] = useLazyQuery(GET_USER, {
     variables: {
       token
-    }
+    },
+    fetchPolicy: 'network-only'
   })
 
   const getToken = async () => {
@@ -307,7 +308,8 @@ const Profile = (props) => {
                               {query: GET_HISTORY, variables: {
                                 token
                               }}
-                            ]
+                            ],
+                            awaitRefetchQueries: true
                           })
                         }}
                       ]
