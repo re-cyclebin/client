@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios'
 
 import MapView, { Marker } from 'react-native-maps'
 
@@ -38,6 +40,34 @@ export default (props) => {
   const [loaction, setLocation] = useState({})
   const [token, setToken] = useState('')
   const [destination, setDestination] = useState({})
+  
+  const permissionNotif = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    console.log(123)
+    let finalStatus = existingStatus
+    if(finalStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    console.log(234)
+    console.log(finalStatus)
+    let token = await Notifications.getExpoPushTokenAsync();
+    console.log(token, 'token')
+  }
+
+  const sendNotif = async () => {
+    await axios({
+      url: 'https://exp.host/--/api/v2/push/send',
+      method: 'post',
+      data: {
+        "to": "ExponentPushToken[RknquZNmFb3VE_jwh4jKCa]",
+        "title":"hello",
+        "body": "world"
+      }
+    })
+  }
 
   const logout = () => {
     Alert.alert(
@@ -147,6 +177,7 @@ export default (props) => {
 
   useEffect(() => {
     permission()
+    permissionNotif()
     getToken()
   }, [])
 
