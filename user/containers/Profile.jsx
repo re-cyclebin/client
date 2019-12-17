@@ -20,7 +20,9 @@ import {
   Alert
 } from 'react-native'
 
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
+
+import Coupons from '../components/Coupons'
 
 const GET_HISTORY = gql`
   query($token: String) {
@@ -57,7 +59,7 @@ const Profile = (props) => {
   const [point, setPoint] = useState(0)
   const [reward, setReward] = useState(0)
   const [loadingDelete, setLoadingDelete] = useState(false)
-  const [isHistory, setIsHistory] = useState(false)
+  const [isHistory, setIsHistory] = useState(true)
 
   const [deleteHistory, { loading }] = useMutation(DELETE_HISTORY)
   const [getHistories, { data }] = useLazyQuery(GET_HISTORY, {
@@ -99,7 +101,7 @@ const Profile = (props) => {
         }}
       >
         <Image 
-          source={{ uri: 'https://pbs.twimg.com/profile_images/980145664712740864/aNWjR7MB_400x400.jpg' }}
+          source={require('../assets/foto.jpg')}
           style={{
             borderRadius: 100000,
             width: 120,
@@ -130,11 +132,11 @@ const Profile = (props) => {
                     marginRight: 20
                   }}
                 >
-                  {/* <Text
+                  <Text
                     style={{
                       fontSize: 18,
                     }}
-                  >{userData.UserSignin.point}</Text> */}
+                  >{userData.UserSignin.point}</Text>
                   <Text
                     style={{
                       fontSize: 18,
@@ -147,11 +149,11 @@ const Profile = (props) => {
                     marginLeft: 20
                   }}
                 >
-                  {/* <Text
+                  <Text
                     style={{
                       fontSize: 18,
                     }}
-                  >{userData.UserSignin.reward}</Text> */}
+                  >{userData.UserSignin.reward}</Text>
                   <Text
                     style={{
                       fontSize: 18
@@ -364,21 +366,25 @@ const Profile = (props) => {
         : (
           <View
             style={{
-              marginTop: 20
+              marginTop: 20,
             }}
           >
-            <LinearGradient
-              colors={['#1D976C', '#93F9B9']}
-              style={{ padding: 50, alignItems: 'center', borderRadius: 5 }}>
-              <Text
-                style={{
-                  backgroundColor: 'transparent',
-                  fontSize: 15,
-                  color: '#fff',
-                }}>
-                Sign in with Facebook
-              </Text>
-            </LinearGradient>
+            <Coupons color={{
+              first: '#76b852',
+              second: '#8DC26F'
+            }} />
+            <Coupons color={{
+              first: '#1D976C',
+              second: '#93F9B9'
+            }} />
+            <Coupons color={{
+              first: '#348F50',
+              second: '#56B4D3'
+            }} />
+            <Coupons color={{
+              first: '#134E5E',
+              second: '#71B280'
+            }} />
           </View>
         )
       }
