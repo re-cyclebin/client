@@ -40,7 +40,7 @@ const ListMap = (props) => {
           pitch: 0,
           heading: 0,
           altitude: 1500,
-          zoom: 14
+          zoom: 15
         }}
       >
         <Marker 

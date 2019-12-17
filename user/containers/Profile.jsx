@@ -55,7 +55,7 @@ const Profile = (props) => {
   const [point, setPoint] = useState(0)
   const [reward, setReward] = useState(0)
   const [loadingDelete, setLoadingDelete] = useState(false)
-  const [deleteHistory] = useMutation(DELETE_HISTORY)
+  const [deleteHistory, { loading }] = useMutation(DELETE_HISTORY)
   const [getHistories, { data }] = useLazyQuery(GET_HISTORY, {
     variables: {
       token
@@ -64,7 +64,8 @@ const Profile = (props) => {
   const [getLogin, { data : userData }] = useLazyQuery(GET_USER, {
     variables: {
       token
-    }
+    },
+    fetchPolicy: 'network-only'
   })
 
   const getToken = async () => {
@@ -231,7 +232,7 @@ const Profile = (props) => {
       {
         data
         ? (
-          !loadingDelete 
+          !loading 
           ? (
               <SwipeListView
               style={{
@@ -258,12 +259,12 @@ const Profile = (props) => {
                   <View
                     style={{
                       backgroundColor: '#31B057',
-                      padding: 9,
+                      padding: 14,
                       borderRadius: 18,
                       marginRight: 15
                     }}
                   >
-                    <FontAwesome5 name={'leaf'} style={{ fontSize: 25 }}/>
+                    <FontAwesome5 name={'leaf'} style={{ fontSize: 20, color: 'white' }}/>
                   </View>
                   <View>
                     <Text
@@ -304,8 +305,11 @@ const Profile = (props) => {
                               id: data.item._id
                             },
                             refetchQueries: () => [
-                              {query: getHistories}
-                            ]
+                              {query: GET_HISTORY, variables: {
+                                token
+                              }}
+                            ],
+                            awaitRefetchQueries: true
                           })
                         }}
                       ]

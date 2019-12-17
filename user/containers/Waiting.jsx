@@ -14,7 +14,7 @@ const Waiting = (props) => {
   useEffect(() => {
     setTimeout(() => {
       props.navigation.navigate('Point')
-    }, 2000)
+    }, 9000)
   }, [])
   return (
     <View
@@ -24,6 +24,9 @@ const Waiting = (props) => {
         minHeight: '100%'
       }}
     >
+<Text>{JSON.stringify(props.navigation.state.params.oldTrash.weight)}</Text>
+<Text>{JSON.stringify(props.navigation.state.params.newTrash.weight)}</Text>
+
       <Image 
         source={require('../assets/calculate.jpg')}
         style={{

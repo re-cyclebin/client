@@ -105,7 +105,7 @@ const MapHome = (props) => {
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
-          strokeColor="#3997F0"
+          strokeColor="#30b057"
         />
       </MapView>
     </View>
