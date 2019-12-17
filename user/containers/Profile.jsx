@@ -187,7 +187,7 @@ const Profile = (props) => {
                 marginRight: 15
               }}
             >
-              <FontAwesome5 name={'leaf'} style={{ fontSize: 25 }}/>
+              <FontAwesome5 name={'leaf'} style={{ fontSize: 25, color: 'white' }}/>
             </View>
             <View>
               <Text

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, AsyncStorage, Alert, Text } from 'react-native';
+import { StyleSheet, Dimensions, AsyncStorage, Alert, Text, StatusBar } from 'react-native';
 import MapView from 'react-native-maps';
 import { LoadingComponent, ErrorComponent } from '../component/SpamComponent'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';

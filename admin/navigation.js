@@ -11,8 +11,12 @@ import Home from './src/containers/Home'
 import Signin from './src/containers/Signin';
 import Map from './src/containers/Map';
 import HistoryAdmin from './src/containers/HistoryAdmin';
-
+import EmptyBin from './src/containers/EmptyBin';
+import ConfirmationPage from './src/containers/ConfirmationPage';
 import HomePull from './src/containers/HomePuller';
+import Waiting from './src/containers/Waiting'
+
+import ConfirmationHeader from './src/component/ConfirmationHeader'
 
 const stackHome = createStackNavigator({
   Home: {
@@ -28,6 +32,24 @@ const stackCreate = createStackNavigator({
     title: 'Choose Location',
     headerTransparent: true
   }},
+})
+
+const emptyStack = createStackNavigator({
+  EmptyBin: {
+    screen: EmptyBin,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ConfirmationPage: {
+    screen: ConfirmationPage,
+    navigationOptions: {
+      header: ({ navigation }) => <ConfirmationHeader navigation={navigation} />
+    }
+  }
+}, {
+  // initialRouteName: 'ConfirmationPage'
+  // initialRouteName: 'Waiting'
 })
 
 
@@ -60,12 +82,24 @@ const tabNavPuller = createBottomTabNavigator({
       title: 'Home',
     },
   },
+  emptyStack: {
+    screen: emptyStack,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => <FontAwesome5 name={'dumpster-fire'} style={{ fontSize: 20, color: tintColor}}/>,
+      title: 'Empty Bin',
+    },
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: '#468847'
+  }
 })
 
 const switchNav = createSwitchNavigator({
   Signin,
   tabNavAdmin: { screen: tabNavAdmin },
-  tabNavPuller
+  tabNavPuller,
+  Waiting
 }, {
   initialRouteName: 'Signin'
 })
