@@ -40,6 +40,7 @@ export default () => {
       }
     })
   }
+  console.log(error)
 
   const deleteHistoryy = (id) => {
     Alert.alert(
@@ -53,7 +54,7 @@ export default () => {
   }
 
   if(loading) return <LoadingComponent />
-  if(error) return <ErrorComponent />
+  // if(error) return <ErrorComponent />
 
     return (
       data
