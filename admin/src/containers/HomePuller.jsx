@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -38,6 +39,22 @@ export default (props) => {
   const [loaction, setLocation] = useState({})
   const [token, setToken] = useState('')
   const [destination, setDestination] = useState({})
+  
+  const permissionNotif = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    console.log(123)
+    let finalStatus = existingStatus
+    if(finalStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    console.log(234)
+    console.log(finalStatus)
+    let token = await Notifications.getExpoPushTokenAsync();
+    console.log(token, 'token')
+  }
 
   const logout = () => {
     Alert.alert(
@@ -147,6 +164,7 @@ export default (props) => {
 
   useEffect(() => {
     permission()
+    permissionNotif()
     getToken()
   }, [])
 
