@@ -20,6 +20,10 @@ import {
   Alert
 } from 'react-native'
 
+import { LinearGradient } from 'expo-linear-gradient'
+
+import Coupons from '../components/Coupons'
+
 const GET_HISTORY = gql`
   query($token: String) {
     UserHistory(token: $token) {
@@ -55,6 +59,8 @@ const Profile = (props) => {
   const [point, setPoint] = useState(0)
   const [reward, setReward] = useState(0)
   const [loadingDelete, setLoadingDelete] = useState(false)
+  const [isHistory, setIsHistory] = useState(true)
+
   const [deleteHistory, { loading }] = useMutation(DELETE_HISTORY)
   const [getHistories, { data }] = useLazyQuery(GET_HISTORY, {
     variables: {
@@ -95,7 +101,7 @@ const Profile = (props) => {
         }}
       >
         <Image 
-          source={{ uri: 'https://pbs.twimg.com/profile_images/980145664712740864/aNWjR7MB_400x400.jpg' }}
+          source={require('../assets/foto.jpg')}
           style={{
             borderRadius: 100000,
             width: 120,
@@ -150,7 +156,7 @@ const Profile = (props) => {
                   >{userData.UserSignin.reward}</Text>
                   <Text
                     style={{
-                      fontSize: 18,
+                      fontSize: 18
                     }}
                   >Reward</Text>
                 </View>
@@ -164,24 +170,45 @@ const Profile = (props) => {
       </View>
       <View
         style={{
-          paddingTop: 50
+          paddingTop: 50,
+          flexDirection: 'row',
+          borderTopWidth: 0.5,
+          borderTopColor: '#a2a7aa',
+          paddingTop: 20,
+          marginTop: 20
         }}
       >
-        <View
+        <TouchableOpacity
+          onPress={() => setIsHistory(true)}
+          activeOpacity={0.6}
           style={{
             alignItems: 'center',
-            borderTopWidth: 0.5,
-            borderTopColor: '#a2a7aa',
-            paddingTop: 20,
+            flex: 1
           }}
         >
-          <FontAwesome5 name={'clock'} style={{ fontSize: 20}}/>
+          <FontAwesome5 name={'clock'} style={{ fontSize: 20, color: isHistory ? '#30b057' : 'black'}}/>
           <Text
             style={{
-              fontSize: 12
+              fontSize: 12,
+              color: isHistory ? '#30b057' : 'black'
             }}
           >History</Text>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => setIsHistory(false)}
+          style={{
+            alignItems: 'center',
+            flex: 1
+          }}
+        >
+          <FontAwesome5 name={'ticket-alt'} style={{ fontSize: 20, color: !isHistory ? '#30b057' : 'black'}}/>
+          <Text
+            style={{
+              color: !isHistory ? '#30b057' : 'black'
+            }}
+          >Coupons</Text>
+        </TouchableOpacity>
       </View>
       {/* <View
         style={{
@@ -230,109 +257,136 @@ const Profile = (props) => {
         }
       </View> */}
       {
-        data
+        isHistory
         ? (
-          !loading 
+          data
           ? (
-              <SwipeListView
-              style={{
-                marginTop: 20
-              }}
-              data={data.UserHistory}
-              disableRightSwipe={true}
-              closeOnRowOpen={true}
-              stopLeftSwipe={35}
-              closeOnRowBeginSwipe={true}
-              renderItem={ (data, rowMap) => (
-                <View
-                  key={data.item._id}
-                  style={{
-                    marginBottom: 20,
-                    flexDirection: 'row',
-                    alignItems: 'flex-start',
-                    paddingBottom: 20,
-                    borderBottomWidth: 0.5,
-                    borderColor: '#a2a7aa',
-                    backgroundColor: 'white'
-                  }}
-                >
+            !loading 
+            ? (
+                <SwipeListView
+                style={{
+                  marginTop: 20
+                }}
+                data={data.UserHistory}
+                disableRightSwipe={true}
+                closeOnRowOpen={true}
+                stopLeftSwipe={35}
+                closeOnRowBeginSwipe={true}
+                renderItem={ (data, rowMap) => (
                   <View
+                    key={data.item._id}
                     style={{
-                      backgroundColor: '#31B057',
-                      padding: 14,
-                      borderRadius: 18,
-                      marginRight: 15
+                      marginBottom: 20,
+                      flexDirection: 'row',
+                      alignItems: 'flex-start',
+                      paddingBottom: 20,
+                      borderBottomWidth: 0.5,
+                      borderColor: '#a2a7aa',
+                      backgroundColor: 'white'
                     }}
                   >
-                    <FontAwesome5 name={'leaf'} style={{ fontSize: 20, color: 'white' }}/>
-                  </View>
-                  <View>
-                    <Text
+                    <View
                       style={{
-                        fontSize: 18,
-                        fontWeight: '500'
+                        backgroundColor: '#31B057',
+                        padding: 14,
+                        borderRadius: 18,
+                        marginRight: 15
                       }}
-                    >Point: {data.item.point}</Text>
-                    <Text
-                      style={{
-                        marginTop: 10
-                      }}
-                  >{moment(data.item.createdAt).calendar()}</Text>
-                  </View>
-                </View>
-              )}
-              renderHiddenItem={ (data, rowMap) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    // deleteHistory({
-                    //   variables: {
-                    //     token,
-                    //     id: data.item._id
-                    //   },
-                    //   refetchQueries: () => [
-                    //     {query: GET_HISTORY, variables: { token }}
-                    //   ]
-                    // })
-                    Alert.alert(
-                      'Delete History',
-                      'Are you sure?',
-                      [
-                        {text: 'cancel'},
-                        {text: 'Delete', onPress: () => {
-                          deleteHistory({
-                            variables: {
-                              token,
-                              id: data.item._id
-                            },
-                            refetchQueries: () => [
-                              {query: GET_HISTORY, variables: {
-                                token
-                              }}
-                            ],
-                            awaitRefetchQueries: true
-                          })
+                    >
+                      <FontAwesome5 name={'leaf'} style={{ fontSize: 20, color: 'white' }}/>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: '500'
                         }}
-                      ]
-                      )
-                  }}
-                  key={data.item._id}
-                  style={{
-                    flexDirection: 'row-reverse',
-                    alignItems: 'center',
-                  }}
-                >
-                  <FontAwesome5 name={'trash-alt'} style={{ fontSize: 20, color: 'red'}}/>
-                </TouchableOpacity>
-              )}
-              leftOpenValue={75}
-              rightOpenValue={-75}
-              />
+                      >Point: {data.item.point}</Text>
+                      <Text
+                        style={{
+                          marginTop: 10
+                        }}
+                    >{moment(data.item.createdAt).calendar()}</Text>
+                    </View>
+                  </View>
+                )}
+                renderHiddenItem={ (data, rowMap) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      // deleteHistory({
+                      //   variables: {
+                      //     token,
+                      //     id: data.item._id
+                      //   },
+                      //   refetchQueries: () => [
+                      //     {query: GET_HISTORY, variables: { token }}
+                      //   ]
+                      // })
+                      Alert.alert(
+                        'Delete History',
+                        'Are you sure?',
+                        [
+                          {text: 'cancel'},
+                          {text: 'Delete', onPress: () => {
+                            deleteHistory({
+                              variables: {
+                                token,
+                                id: data.item._id
+                              },
+                              refetchQueries: () => [
+                                {query: GET_HISTORY, variables: {
+                                  token
+                                }}
+                              ],
+                              awaitRefetchQueries: true
+                            })
+                          }}
+                        ]
+                        )
+                    }}
+                    key={data.item._id}
+                    style={{
+                      flexDirection: 'row-reverse',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FontAwesome5 name={'trash-alt'} style={{ fontSize: 20, color: 'red'}}/>
+                  </TouchableOpacity>
+                )}
+                leftOpenValue={75}
+                rightOpenValue={-75}
+                />
+            )
+            : (
+              <ActivityIndicator style={{marginTop: 20}} />
+            )
           )
-          : (
-            <ActivityIndicator />
-          )
+          : <ActivityIndicator style={{marginTop: 20}} />
         )
-        : <ActivityIndicator style={{marginTop: 20}} />
+        : (
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Coupons color={{
+              first: '#76b852',
+              second: '#8DC26F'
+            }} />
+            <Coupons color={{
+              first: '#1D976C',
+              second: '#93F9B9'
+            }} />
+            <Coupons color={{
+              first: '#348F50',
+              second: '#56B4D3'
+            }} />
+            <Coupons color={{
+              first: '#134E5E',
+              second: '#71B280'
+            }} />
+          </View>
+        )
       }
       
     </ScrollView>
