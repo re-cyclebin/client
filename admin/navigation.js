@@ -110,7 +110,7 @@ const switchNav = createSwitchNavigator({
   tabNavPuller,
   Waiting
 }, {
-  initialRouteName: 'Signin'
+  initialRouteName: 'Waiting'
 })
 
 export default createAppContainer(switchNav)
