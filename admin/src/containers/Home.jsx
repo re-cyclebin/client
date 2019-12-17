@@ -34,10 +34,10 @@ const Home = (props) => {
   
   useEffect(() => {
     const getToken = async () => {
-      const token = await AsyncStorage.getItem("token");
-      setToken(token)
-      goFetch()
-      // await AsyncStorage.removeItem('token') 
+      // const token = await AsyncStorage.getItem("token");
+      // setToken(token)
+      // goFetch()
+      await AsyncStorage.removeItem('token') 
     }
     getToken();
   }, [])

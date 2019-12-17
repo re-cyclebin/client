@@ -17,7 +17,7 @@ export default ({ navigation }) => {
     const gettingToken = async () => {
       const token = await AsyncStorage.getItem('token');
       setToken(token)
-      findRole()
+      if(token) findRole()
     }
     gettingToken()
   }, [])
@@ -39,13 +39,14 @@ export default ({ navigation }) => {
     }, 2000); }
   }
 
-  data 
+  // console.log(data)
+  data
   ?
-  (data.UserSignin.role == 'admin') ? navigation.navigate('tabNavAdmin')
-  :
-  navigation.navigate('tabNavPuller')
-  :
-  null
+    data.UserSignin
+      ? (data.UserSignin.role == 'admin') ? navigation.navigate('tabNavAdmin')
+      : navigation.navigate('tabNavPuller')
+  : null
+  : null
   
   return (
     <ImageBackground source={{ uri: 'https://images.unsplash.com/photo-1537791341351-5f2fc64bcf55?ixlib=rb-1.2.1&w=1000&q=80'}} style={{ height: '100%', weight: '100%'}}>
