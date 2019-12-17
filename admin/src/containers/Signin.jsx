@@ -38,8 +38,6 @@ export default ({ navigation }) => {
       setError('')
     }, 2000); }
   }
-
-  // console.log(data)
   data
   ?
     data.UserSignin

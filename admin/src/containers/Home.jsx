@@ -45,27 +45,6 @@ const Home = (props) => {
   if(loading) return <LoadingComponent />
   if(error) return <ErrorComponent />
 
-  // useEffect(() => {
-  //   setClick(false)
-  // }, [create.loading])
-
-
-  // const actionCreate = async ({ longitude, latitude }) => {
-  //   try {
-  //     await submitCreate({
-  //       variables: { longitude: String(longitude), latitude: String(latitude), token },
-  //       update (cache, { data: { makeTrash } }) {
-  //         const { AllTrash } = cache.readQuery({ query: GET_ALL_TRASH_FOR_MAP, variables: { token } });
-  //         cache.writeQuery({
-  //           query: GET_ALL_TRASH_FOR_MAP,
-  //           variables: { token },
-  //           data: { AllTrash: [ ...AllTrash, makeTrash ] }
-  //         })
-  //       }
-  //     })
-  //   } catch({ graphQLErrors }) { console.log(graphQLErrors) }
-  // }
-
   const actionUpdate = ({ longitude, latitude, id }) => {
     submitUpdate({
       variables: { token, longitude: String(longitude), latitude: String(latitude), id }
@@ -123,20 +102,6 @@ const Home = (props) => {
   return(
     <View>
       <MapView style={styles.mapStyle} 
-//         onPress={({ nativeEvent }) => {
-//           if(isClick ){
-//             Alert.alert(
-//               'create',
-//               `longitude: ${nativeEvent.coordinate.longitude},
-// latitude: ${nativeEvent.coordinate.latitude}`,
-//               [
-//                 { text: 'NO' },
-//                 { text: 'YES', onPress: () => actionCreate({ longitude: nativeEvent.coordinate.longitude, latitude: nativeEvent.coordinate.latitude })} 
-//               ],
-//               { cancelable: false }
-//             )
-//           }
-//         }}
         camera={{
           center: {
             latitude: -6.2607917,
@@ -162,16 +127,6 @@ const Home = (props) => {
             :
             null
         }
-            {/* <TouchableOpacity style={{ position: 'absolute', bottom: 14, right: 14, borderRadius: 20, backgroundColor: 'red' }} onPress={() => {
-              if(!isClick){
-                setTimeout(() => {
-                  setClick(true)
-                }
-                ,1000)
-              } else setClick(false)
-              }}>
-                    <Image source={require('../../assets/add-circle.png')} style={{ position: 'absolute', bottom: 14, right: 14, height: 28, width: 28 }} />
-            </TouchableOpacity> */}
       </MapView>
     </View>
   )
