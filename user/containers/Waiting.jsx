@@ -4,7 +4,8 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import {
   View,
   Text,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native'
 
 const Waiting = (props) => {
@@ -13,8 +14,12 @@ const Waiting = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      props.navigation.navigate('Point')
-    }, 9000)
+      props.navigation.navigate('Point', {
+        token: props.navigation.state.params.token,
+        id: props.navigation.state.params.oldTrash._id,
+        weight: props.navigation.state.params.oldTrash.weight
+      })
+    }, 17000)
   }, [])
   return (
     <View
@@ -24,9 +29,6 @@ const Waiting = (props) => {
         minHeight: '100%'
       }}
     >
-<Text>{JSON.stringify(props.navigation.state.params.oldTrash.weight)}</Text>
-<Text>{JSON.stringify(props.navigation.state.params.newTrash.weight)}</Text>
-
       <Image 
         source={require('../assets/calculate.jpg')}
         style={{
