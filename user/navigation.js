@@ -95,7 +95,7 @@ const switchNav = createSwitchNavigator({
   Point,
   Register
 }, {
-  initialRouteName: 'tabNav'
+  initialRouteName: 'Login'
 })
 
 export default createAppContainer(switchNav)

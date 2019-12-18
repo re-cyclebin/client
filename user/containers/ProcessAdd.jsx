@@ -77,8 +77,8 @@ const ProcessAdd = (props) => {
               console.log(dataTrash.userOpen)
               console.log(props.navigation.state.params.oldTrash)
               props.navigation.navigate('Waiting', {
-                oldTrash: props.navigation.state.params.oldTrash, 
-                newTrash: dataTrash.userOpen
+                oldTrash: props.navigation.state.params.oldTrash,
+                token: props.navigation.state.params.token
               })
             }}
           >

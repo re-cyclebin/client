@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "user",
-    "slug": "user",
+    "name": "Boostle",
+    "slug": "boostle",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.Boostlebin.Boostle"
+    },
+    "android": {
+      "package": "com.Boostlebin.Boostle"
     }
   }
 }

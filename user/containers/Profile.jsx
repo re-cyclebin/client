@@ -65,7 +65,8 @@ const Profile = (props) => {
   const [getHistories, { data }] = useLazyQuery(GET_HISTORY, {
     variables: {
       token
-    }
+    },
+    fetchPolicy: 'network-only'
   })
   const [getLogin, { data : userData }] = useLazyQuery(GET_USER, {
     variables: {
@@ -125,42 +126,48 @@ const Profile = (props) => {
             {
               data
               ? (
-                <>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    marginRight: 20
-                  }}
-                >
-                  <Text
+                userData
+                ? (
+                  <>
+                  <View
                     style={{
-                      fontSize: 18,
+                      alignItems: 'center',
+                      marginRight: 20
                     }}
-                  >{userData.UserSignin.point}</Text>
-                  <Text
+                  >
+                    <Text
+                      style={{
+                        fontSize: 18,
+                      }}
+                    >{userData.UserSignin.point}</Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                      }}
+                    >Point</Text>
+                  </View>
+                  <View
                     style={{
-                      fontSize: 18,
+                      alignItems: 'center',
+                      marginLeft: 20
                     }}
-                  >Point</Text>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    marginLeft: 20
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 18,
-                    }}
-                  >{userData.UserSignin.reward}</Text>
-                  <Text
-                    style={{
-                      fontSize: 18
-                    }}
-                  >Reward</Text>
-                </View>
-                </>
+                  >
+                    <Text
+                      style={{
+                        fontSize: 18,
+                      }}
+                    >{userData.UserSignin.reward}</Text>
+                    <Text
+                      style={{
+                        fontSize: 18
+                      }}
+                    >Reward</Text>
+                  </View>
+                  </>
+                )
+                : (
+                  <ActivityIndicator />
+                )
               )
               : (
                 <ActivityIndicator />
