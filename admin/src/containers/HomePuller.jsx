@@ -51,10 +51,8 @@ export default (props) => {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
-    console.log(234)
-    console.log(finalStatus)
     let token = await Notifications.getExpoPushTokenAsync();
-    // sendToken(token)
+    sendToken(token)
   }
 
   const sendToken = async (token) => {

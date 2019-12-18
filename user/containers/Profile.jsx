@@ -20,8 +20,6 @@ import {
   Alert
 } from 'react-native'
 
-import { LinearGradient } from 'expo-linear-gradient'
-
 import Coupons from '../components/Coupons'
 
 const GET_HISTORY = gql`
@@ -376,22 +374,42 @@ const Profile = (props) => {
               marginTop: 20,
             }}
           >
-            <Coupons color={{
-              first: '#76b852',
-              second: '#8DC26F'
-            }} />
-            <Coupons color={{
-              first: '#1D976C',
-              second: '#93F9B9'
-            }} />
-            <Coupons color={{
-              first: '#348F50',
-              second: '#56B4D3'
-            }} />
-            <Coupons color={{
-              first: '#134E5E',
-              second: '#71B280'
-            }} />
+            <Coupons 
+              color={{
+                first: '#76b852',
+                second: '#8DC26F'
+              }}
+              value={5000}
+              point={10000}
+              token={token}
+            />
+            <Coupons 
+              color={{
+                first: '#1D976C',
+                second: '#93F9B9'
+              }}
+              value={12000}
+              point={20000}
+              token={token}
+            />
+            <Coupons 
+              color={{
+                first: '#348F50',
+                second: '#56B4D3'
+              }}
+              value={30000}
+              point={50000}
+              token={token}
+            />
+            <Coupons 
+              color={{
+                first: '#134E5E',
+                second: '#71B280'
+              }} 
+              value={80000}
+              point={100000}
+              token={token}
+            />
           </View>
         )
       }

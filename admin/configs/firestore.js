@@ -1,11 +1,11 @@
-// import firebase from 'firebase'
-// import '@firebase/firestore';
+import firebase from 'firebase'
+import '@firebase/firestore';
 
-// const firebaseConfig = {
-// }  // apiKey, authDomain, etc. (see above)
+const firebaseConfig = {
+}  // apiKey, authDomain, etc. (see above)
 
-// firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-// const db = firebase.firestore()
+const db = firebase.firestore()
 
-// export default db
+export default db

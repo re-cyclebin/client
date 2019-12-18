@@ -21,6 +21,19 @@ const CREATE_HISTORY = gql`
   }
 `;
 
+const FETCH_TRASH = gql`
+  query($token: String) {
+    AllTrash(token: $token) {
+      _id
+      location {
+        latitude
+        longitude
+      }
+      avaible
+    }
+  }
+`
+
 const Waiting = (props) => {
   const [token, setToken] = useState('')
 
@@ -68,8 +81,17 @@ const Waiting = (props) => {
                 const { data: dataCreate } = await createHistory({
                   variables: {
                     token,
-                    id: '5df87d05fb3d617f1f44b67d'
-                  }
+                    id: props.navigation.state.params.id
+                  },
+                  refetchQueries: () => [
+                    {
+                      query: FETCH_TRASH,
+                      variables: {
+                        token
+                      },
+                    }
+                  ],
+                  awaitRefetchQueries: true
                 })
                 
                 props.navigation.navigate('tabNavPuller')

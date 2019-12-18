@@ -73,7 +73,7 @@ const ListMap = (props) => {
             }
           </View>
         </Marker>
-        {/* <MapViewDirections 
+        <MapViewDirections 
           origin={{
             latitude: props.location.latitude ? props.location.latitude : -6.2607917,
             longitude: props.location.longitude ? props.location.longitude : 106.7810557
@@ -86,12 +86,10 @@ const ListMap = (props) => {
           onReady={result => {
             setDistance(result.distance)
             setDuration(Math.ceil(result.duration))
-            console.log(result.distance)
-            console.log(result.duration)
           }}
           strokeWidth={3}
           strokeColor="#30b057"
-        /> */}
+        />
       </MapView>
       <View
         style={{
