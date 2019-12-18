@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import MapView, { Marker } from 'react-native-maps';
+import MapView from 'react-native-maps';
 
 import { GET_ALL_TRASH_FOR_MAP } from '../graphAction/query';
 import { MUTATION_UPDATE_LOCATION_ADMIN, MUTATION_DELETE_LOCATION_ADMIN, MUTATION_CREATE_NEW_TRASH } from '../graphAction/mutation'
@@ -8,7 +8,8 @@ import { MUTATION_UPDATE_LOCATION_ADMIN, MUTATION_DELETE_LOCATION_ADMIN, MUTATIO
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 
 import { ErrorComponent, LoadingComponent } from '../component/SpamComponent'
-// import { Ionicons } from '@expo/vector-icons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import MapComponent from '../component/MapComponent';
 
 import {
@@ -16,28 +17,25 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  SafeAreaView,
   StatusBar,
-  Image,
   AsyncStorage,
   Alert,
   TouchableOpacity
 } from 'react-native'
 
-const Home = (props) => {
+export default (props) => {
   const [ token, setToken ] = useState('');
-  const [ isClick, setClick ] = useState(false);
   const [ goFetch, {data, loading, error} ] = useLazyQuery(GET_ALL_TRASH_FOR_MAP,{ variables: { token } })
 
-  // const [ submitCreate ] = useMutation( MUTATION_CREATE_NEW_TRASH )
   const [ submitUpdate ] = useMutation(MUTATION_UPDATE_LOCATION_ADMIN);
-  const [ submitDelete ] = useMutation(MUTATION_DELETE_LOCATION_ADMIN);
+  // const [ submitDelete ] = useMutation(MUTATION_DELETE_LOCATION_ADMIN);
   
   useEffect(() => {
     const getToken = async () => {
       const token = await AsyncStorage.getItem("token");
       setToken(token)
       goFetch()
-      // await AsyncStorage.removeItem('token') 
     }
     getToken();
   }, [])
@@ -68,35 +66,49 @@ const Home = (props) => {
     )
   }
 
-  const actionDelete = async (id) => {
-    await submitDelete({
-      variables: { id, token },
-      update (cache, { data: { MUTATION_DELETE_LOCATION_ADMIN } }) {
-        const { AllTrash } = cache.readQuery({ query: GET_ALL_TRASH_FOR_MAP, variables: { token } })
-        let temp = []
-        AllTrash.forEach((trash, i) => {
-          if(trash._id !== id) temp.push(trash)
-        })
-        cache.writeQuery({
-          query: GET_ALL_TRASH_FOR_MAP,
-          variables: { token },
-          data: { AllTrash: temp }
-        })
-      }
-    })
+  const logout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure?',
+      [
+        {text: 'Cancel'},
+        {text: 'Logout', onPress: async () => {
+          await AsyncStorage.removeItem('token')
+          props.navigation.navigate('Signin')
+        }},
+      ],
+    );
   }
 
-  const deleteTrashId = (id) => {
-    Alert.alert(
-      'DELETE',
-      'Are you sure want delete?',
-      [
-        { text: 'NO', onPress: () => alert('safe trash') },
-        { text: 'DELETE', onPress: () => actionDelete(id) }
-      ],
-       { cancelable: false }
-    )
-  }
+  // const actionDelete = async (id) => {
+  //   await submitDelete({
+  //     variables: { id, token },
+  //     update (cache) {
+  //       const { AllTrash } = cache.readQuery({ query: GET_ALL_TRASH_FOR_MAP, variables: { token } })
+  //       let temp = []
+  //       AllTrash.forEach((trash, i) => {
+  //         if(trash._id !== id) temp.push(trash)
+  //       })
+  //       cache.writeQuery({
+  //         query: GET_ALL_TRASH_FOR_MAP,
+  //         variables: { token },
+  //         data: { AllTrash: temp }
+  //       })
+  //     }
+  //   })
+  // }
+
+  // const deleteTrashId = (id) => {
+  //   Alert.alert(
+  //     'DELETE',
+  //     'Are you sure want delete?',
+  //     [
+  //       { text: 'NO', onPress: () => alert('safe trash') },
+  //       { text: 'DELETE', onPress: () => actionDelete(id) }
+  //     ],
+  //      { cancelable: false }
+  //   )
+  // }
 
 
   return(
@@ -120,14 +132,38 @@ const Home = (props) => {
               <MapComponent 
                 data={trash} 
                 key={i} 
-                updateLocation={updateLocation} 
-                deleteTrashId={deleteTrashId}
+                updateLocation={updateLocation}
+                token={token}
+                // deleteTrashId={deleteTrashId}
+                link={props.navigation.navigate}
               />
             ))
             :
             null
         }
       </MapView>
+      <SafeAreaView
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0
+        }}
+      >
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => {
+            logout()
+          }}
+          style={{
+            backgroundColor: '#31B057',
+            borderRadius: 8,
+            padding: 8
+          }}
+        >
+          <FontAwesome5 name="sign-out-alt" style={{ fontSize: 18, color: 'white' }} />
+        </TouchableOpacity>
+      </SafeAreaView>
     </View>
   )
 }
@@ -142,5 +178,3 @@ const styles = StyleSheet.create({
     height: '100%'
   },
 });
-
-export default Home

@@ -5,14 +5,13 @@ import { Marker } from 'react-native-maps'
 export default (props) => {
   return (
     <View>
-      <Marker draggable
-        // onDragStart={(e) => console.log(e)}
+      <Marker draggables
         coordinate={{
           longitude: Number(props.data.location.longitude),
           latitude: Number(props.data.location.latitude)
         }}
         onDragEnd={({ nativeEvent }) => props.updateLocation(nativeEvent, props.data._id, props.data.location)}
-        onPress={() => props.deleteTrashId(props.data._id)}
+        onPress={() => props.link('Detail', { trash: props.data, token: props.token })}
       >
         <View>
           {

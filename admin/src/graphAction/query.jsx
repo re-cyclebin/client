@@ -11,6 +11,8 @@ export const GET_ALL_TRASH_FOR_MAP = gql`
       avaible
       createdAt
       updatedAt
+      height
+      weight
     }
   }
 `
@@ -35,6 +37,22 @@ export const GET_ALL_HISTORY = gql`
         _id
         email
       }
+    }
+  }
+`
+
+export const GET_TRASH_ID = gql`
+  query TrashId ($id:String, $token:String){
+    TrashId(token:$token, id:$id) {
+      height
+      weight
+      avaible
+      _id
+      location{
+        longitude
+        latitude
+      }
+      status
     }
   }
 `

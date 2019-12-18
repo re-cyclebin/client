@@ -13,7 +13,7 @@ import HistoryAdmin from './src/containers/HistoryAdmin';
 import EmptyBin from './src/containers/EmptyBin';
 import ConfirmationPage from './src/containers/ConfirmationPage';
 import NewMember from './src/containers/NewMember';
-
+import Detail from './src/containers/Detail';
 import HomePull from './src/containers/HomePuller';
 import Waiting from './src/containers/Waiting'
 
@@ -24,6 +24,12 @@ const stackHome = createStackNavigator({
     screen: Home,
     navigationOptions: {
       headerShown: false
+    }
+  },
+  Detail: {
+    screen: Detail,
+    navigationOptions: {
+      title: "Detail"
     }
   }
 })
@@ -48,9 +54,6 @@ const emptyStack = createStackNavigator({
       header: ({ navigation }) => <ConfirmationHeader navigation={navigation} />
     }
   }
-}, {
-  // initialRouteName: 'ConfirmationPage'
-  // initialRouteName: 'Waiting'
 })
 
 
@@ -77,7 +80,7 @@ const tabNavAdmin = createBottomTabNavigator({
     title: 'Member'
   }}
 }, {
-  initialRouteName: 'NewMember',
+  initialRouteName: 'stackHome',
   tabBarOptions: {
     activeTintColor: '#468847'
   }

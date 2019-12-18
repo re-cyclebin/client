@@ -10,7 +10,7 @@ export default ({ navigation }) => {
   const [ password, setPassword ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ error, setError ] = useState('');
-  const [ submitCreate, test] = useMutation( MUTATION_CREATE_NEW_MEMBER )
+  const [ submitCreate ] = useMutation( MUTATION_CREATE_NEW_MEMBER )
 
   const radio_props = [
     {label: 'puller', value: 'puller' },
