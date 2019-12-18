@@ -1,11 +1,14 @@
-// import firebase from 'firebase'
-// import '@firebase/firestore';
+import firebase from 'firebase'
+import '@firebase/firestore';
+// import makefire from 'makefire'
 
-// const firebaseConfig = {
-// }  // apiKey, authDomain, etc. (see above)
+const firebaseConfig = {
+}  // apiKey, authDomain, etc. (see above)
 
-// firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-// const db = firebase.firestore()
+// export const { useDocument } = makefire(firebaseConfig)
 
-// export default db
+const db = firebase.firestore()
+
+export default db

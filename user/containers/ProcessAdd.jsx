@@ -69,13 +69,10 @@ const ProcessAdd = (props) => {
               width: '100%'
             }}
             onPress={ async () => {
-              console.log(props.navigation.state.params)
               const { data: dataTrash } = await openTrash({variables: {
                 token: props.navigation.state.params.token,
                 id: props.navigation.state.params.oldTrash._id
               }})
-              console.log(dataTrash.userOpen)
-              console.log(props.navigation.state.params.oldTrash)
               props.navigation.navigate('Waiting', {
                 oldTrash: props.navigation.state.params.oldTrash,
                 token: props.navigation.state.params.token

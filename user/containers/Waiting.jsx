@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import {
   View,
@@ -20,7 +19,20 @@ const Waiting = (props) => {
         weight: props.navigation.state.params.oldTrash.weight
       })
     }, 17000)
+    // return db.doc('trashbins/5df87d05fb3d617f1f44b67d')
+    //   .onSnapshot(doc => {
+    //     const data = doc.data()
+    //     console.log(data, "FROM FIREBASE")
+    //     if (data.available) {
+    //       props.navigation.navigate('Point', {
+    //         token: props.navigation.state.params.token,
+    //         id: props.navigation.state.params.oldTrash._id,
+    //         weight: props.navigation.state.params.oldTrash.weight
+    //       })
+    //     }
+    //   })
   }, [])
+
   return (
     <View
       style={{
@@ -29,7 +41,7 @@ const Waiting = (props) => {
         minHeight: '100%'
       }}
     >
-      <Image 
+      <Image
         source={require('../assets/calculate.jpg')}
         style={{
           height: 250,
