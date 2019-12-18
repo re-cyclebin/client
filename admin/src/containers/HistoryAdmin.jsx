@@ -54,19 +54,19 @@ export default () => {
   }
 
   if(loading) return <LoadingComponent />
-  // if(error) return <ErrorComponent />
+  if(error) return <ErrorComponent />
 
     return (
       data
         ?
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 50, marginHorizontal: 20 }}>
           <SwipeListView
               data={data.showAllHistory}
               disableRightSwipe={true}
               closeOnRowOpen={true}
               stopLeftSwipe={35}
               closeOnRowBeginSwipe={true}
-              renderItem={ (data, rowMap) => (
+              renderItem={data => (
                 <View
                   key={data.item._id}
                   activeOpacity={0.6}
@@ -114,7 +114,7 @@ export default () => {
                   </View>
                 </View>
               )}
-              renderHiddenItem={ (data, rowMap) => (
+              renderHiddenItem={data => (
                 <TouchableOpacity
                   key={data.item._id}
                   style={{
