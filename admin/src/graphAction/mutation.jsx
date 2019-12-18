@@ -48,6 +48,8 @@ export const MUTATION_CREATE_NEW_TRASH = gql`
       avaible
       createdAt
       updatedAt
+      height
+      weight
     }
   }
 `

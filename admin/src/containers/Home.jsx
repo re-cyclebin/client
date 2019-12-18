@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import MapView from 'react-native-maps';
 
 import { GET_ALL_TRASH_FOR_MAP } from '../graphAction/query';
-import { MUTATION_UPDATE_LOCATION_ADMIN, MUTATION_DELETE_LOCATION_ADMIN, MUTATION_CREATE_NEW_TRASH } from '../graphAction/mutation'
+import { MUTATION_UPDATE_LOCATION_ADMIN } from '../graphAction/mutation'
 
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 
@@ -29,7 +29,6 @@ export default (props) => {
   const [ goFetch, {data, loading, error} ] = useLazyQuery(GET_ALL_TRASH_FOR_MAP,{ variables: { token } })
 
   const [ submitUpdate ] = useMutation(MUTATION_UPDATE_LOCATION_ADMIN);
-  // const [ submitDelete ] = useMutation(MUTATION_DELETE_LOCATION_ADMIN);
   
   useEffect(() => {
     const getToken = async () => {
@@ -79,38 +78,6 @@ export default (props) => {
       ],
     );
   }
-
-  // const actionDelete = async (id) => {
-  //   await submitDelete({
-  //     variables: { id, token },
-  //     update (cache) {
-  //       const { AllTrash } = cache.readQuery({ query: GET_ALL_TRASH_FOR_MAP, variables: { token } })
-  //       let temp = []
-  //       AllTrash.forEach((trash, i) => {
-  //         if(trash._id !== id) temp.push(trash)
-  //       })
-  //       cache.writeQuery({
-  //         query: GET_ALL_TRASH_FOR_MAP,
-  //         variables: { token },
-  //         data: { AllTrash: temp }
-  //       })
-  //     }
-  //   })
-  // }
-
-  // const deleteTrashId = (id) => {
-  //   Alert.alert(
-  //     'DELETE',
-  //     'Are you sure want delete?',
-  //     [
-  //       { text: 'NO', onPress: () => alert('safe trash') },
-  //       { text: 'DELETE', onPress: () => actionDelete(id) }
-  //     ],
-  //      { cancelable: false }
-  //   )
-  // }
-
-
   return(
     <View>
       <MapView style={styles.mapStyle} 

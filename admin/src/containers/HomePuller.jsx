@@ -54,7 +54,7 @@ export default (props) => {
     console.log(234)
     console.log(finalStatus)
     let token = await Notifications.getExpoPushTokenAsync();
-    sendToken(token)
+    // sendToken(token)
   }
 
   const sendToken = async (token) => {
