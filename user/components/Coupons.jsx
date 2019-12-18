@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 import {
   TouchableOpacity,
@@ -11,9 +13,41 @@ import {
   LinearGradient
 } from 'expo-linear-gradient'
 
+const GET_REWARD = gql`
+  mutation (
+    $getReward: Int, 
+    $token: String
+  ) {
+      reward (getReward: $getReward, token: $token){
+        point
+        reward
+        _id
+      }
+    }
+`
+
 const Coupons = (props) => {
+  const [getReward] = useMutation(GET_REWARD)
+  const [error, setError] = useState('')
+
   return (
     <TouchableOpacity
+      onPress={ async () => {
+        try {
+          await getReward({
+            variables: {
+              token: props.token,
+              getReward: props.value
+            }
+          })
+        }
+        catch(err) {
+          setError(err.graphQLErrors[0].message)
+          setTimeout(() => {
+            setError('')
+          }, 2500)
+        }
+      }}
       activeOpacity={0.6}
       style={{
         marginBottom: 20
@@ -37,14 +71,16 @@ const Coupons = (props) => {
             color: '#fff',
             fontWeight: '800'
           }}>
-          Reward Rp. 5.000
+          Reward Rp. {props.value}
         </Text>
         <View
           style={{
-            justifyContent: 'flex-start',
+            justifyContent: 'space-between',
             position: 'absolute',
             bottom: 10,
-            left: 10
+            left: 10,
+            alignItems: 'center',
+            flexDirection: 'row'
           }}
         >
           <Text
@@ -52,7 +88,22 @@ const Coupons = (props) => {
               color: 'white',
               marginTop: 10
             }}
-          >Requirement: 5000 Point</Text>
+          >Requirement: {props.point} Point</Text>
+          {
+            error
+            ? (
+              <Text
+                style={{
+                  marginTop: 10,
+                  color: 'red',
+                  marginLeft: 25
+                }}
+              >{error}</Text>
+            )
+            : (
+              <Text></Text>
+            )
+          }
         </View>
         <Image 
           style={{

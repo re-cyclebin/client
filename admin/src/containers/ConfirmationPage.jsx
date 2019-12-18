@@ -91,13 +91,27 @@ const ConfirmationAddTrash = (props) => {
                   }}
                 >
                   <View>
-                    <Image 
-                      source={require('../../assets/trueTrash.png')}
-                      style={{
-                        width: 20,
-                        height: 40
-                      }}
-                    />
+                    {
+                      data.TrashId.avaible
+                      ? (
+                        <Image 
+                          source={require('../../assets/trueTrash.png')}
+                          style={{
+                            width: 20,
+                            height: 40
+                          }}
+                        />
+                      )
+                      : (
+                        <Image 
+                          source={require('../../assets/falsetrash.png')}
+                          style={{
+                            width: 20,
+                            height: 40
+                          }}
+                        />
+                      )
+                    }
                   </View>
                 </Marker>
               </MapView>
@@ -138,7 +152,9 @@ const ConfirmationAddTrash = (props) => {
                         paddingVertical: 10,
                         paddingHorizontal: 15
                       }}
-                      onPress={() => props.navigation.navigate('Waiting')}
+                      onPress={() => props.navigation.navigate('Waiting', {
+                        id: props.navigation.state.params.data
+                      })}
                     >
                       <Text
                         style={{
