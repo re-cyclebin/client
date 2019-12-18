@@ -109,7 +109,7 @@ export default (props) => {
             null
         }
       </MapView>
-      <SafeAreaView
+      {/* <SafeAreaView
         style={{
           position: 'absolute',
           top: 20,
@@ -130,7 +130,7 @@ export default (props) => {
         >
           <FontAwesome5 name="sign-out-alt" style={{ fontSize: 18, color: 'white' }} />
         </TouchableOpacity>
-      </SafeAreaView>
+      </SafeAreaView> */}
     </View>
   )
 }

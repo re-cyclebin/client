@@ -40,7 +40,6 @@ export default () => {
       }
     })
   }
-  console.log(error)
 
   const deleteHistoryy = (id) => {
     Alert.alert(

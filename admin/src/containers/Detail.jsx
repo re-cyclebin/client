@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Platform,
   StatusBar,
-  Alert,AsyncStorage,
+  Alert,AsyncStorage, ImageBackground,
   ScrollView } from 'react-native';
 
 export default ({ navigation }) => {
@@ -56,20 +56,22 @@ export default ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        marginHorizontal: 20,
-        marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0
-      }}
-    >
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
+    <ImageBackground source={{ uri: 'https://hariannusantara.com/wp-content/uploads/2019/06/gambar-pemandangan-format-png9.jpg' }} style={{ height: '100%', width: '100%' }}>
+      <SafeAreaView
         style={{
-          minHeight: '100%'
+          marginHorizontal: 20,
+          marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0
         }}
       >
-        <ListMap location={navigation.state.params.trash.location} trash={navigation.state.params.trash} key={navigation.state.params.trash._id} deleteTrash={deleteTrashId}/>
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          style={{
+            minHeight: '100%'
+          }}
+        >
+          <ListMap location={navigation.state.params.trash.location} trash={navigation.state.params.trash} key={navigation.state.params.trash._id} deleteTrash={deleteTrashId}/>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }

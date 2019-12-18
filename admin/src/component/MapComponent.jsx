@@ -5,7 +5,7 @@ import { Marker } from 'react-native-maps'
 export default (props) => {
   return (
     <View>
-      <Marker draggables
+      <Marker draggable
         coordinate={{
           longitude: Number(props.data.location.longitude),
           latitude: Number(props.data.location.latitude)

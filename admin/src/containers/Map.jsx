@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, AsyncStorage, Alert, Text, StatusBar } from 'react-native';
+import { StyleSheet, Dimensions, AsyncStorage, Alert, StatusBar } from 'react-native';
 import MapView from 'react-native-maps';
 import { LoadingComponent, ErrorComponent } from '../component/SpamComponent'
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -7,11 +7,11 @@ import { GET_ALL_TRASH_FOR_MAP } from '../graphAction/query';
 import MapCreateComponent from '../component/MapForCreate';
 import { MUTATION_CREATE_NEW_TRASH } from '../graphAction/mutation';
 
-export default ({ navigation }) => {
+export default _ => {
   const [ token, setToken ] = useState('');
   const [ goFetch, {data, loading, error} ] = useLazyQuery(GET_ALL_TRASH_FOR_MAP,{ variables: { token } })
 
-  const [ submitCreate, create ] = useMutation( MUTATION_CREATE_NEW_TRASH )
+  const [ submitCreate ] = useMutation( MUTATION_CREATE_NEW_TRASH )
 
   useEffect(() => {
     const getToken = async () => {
@@ -21,6 +21,7 @@ export default ({ navigation }) => {
     }
     getToken();
   }, [])
+
 
   const actionCreate = async ({ longitude, latitude }) => {
     try {
@@ -40,7 +41,6 @@ export default ({ navigation }) => {
 
   if(loading) return <LoadingComponent />
   if(error) return <ErrorComponent />
-  // if(create.loading) return <LoadingComponent />
 
   return (
     <MapView 
