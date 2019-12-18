@@ -50,13 +50,27 @@ const ListMap = (props) => {
           }}
         >
           <View>
-            <Image 
-              source={require('../assets/trueTrash.png')}
-              style={{
-                width: 20,
-                height: 40
-              }}
-            />
+            {
+              props.trash.avaible
+              ? (
+                <Image 
+                  source={require('../assets/trueTrash.png')}
+                  style={{
+                    width: 20,
+                    height: 40
+                  }}
+                />
+              )
+              : (
+                <Image 
+                  source={require('../assets/trash.png')}
+                  style={{
+                    width: 20,
+                    height: 40
+                  }}
+                />
+              )
+            }
           </View>
         </Marker>
         {/* <MapViewDirections 
@@ -65,8 +79,8 @@ const ListMap = (props) => {
             longitude: props.location.longitude ? props.location.longitude : 106.7810557
           }}
           destination={{
-            latitude: -6.261861,
-            longitude: 106.783890
+            latitude: Number(props.trash.location.latitude),
+            longitude: Number(props.trash.location.longitude)
           }}
           apikey={GOOGLE_MAPS_APIKEY}
           onReady={result => {
@@ -75,6 +89,8 @@ const ListMap = (props) => {
             console.log(result.distance)
             console.log(result.duration)
           }}
+          strokeWidth={3}
+          strokeColor="#30b057"
         /> */}
       </MapView>
       <View
@@ -88,12 +104,25 @@ const ListMap = (props) => {
             alignItems: 'center'
           }}
         >
-          <Text
-            style={{
-              color: '#468847',
-              fontWeight: '600'
-            }}
-          >Availavble</Text>
+          {
+            props.trash.avaible
+            ? (
+              <Text
+                style={{
+                  color: '#468847',
+                  fontWeight: '600'
+                }}
+              >Available</Text>
+            )
+            : (
+              <Text
+                style={{
+                  color: '#a2a7aa',
+                  fontWeight: '600'
+                }}
+              >Unavailable</Text>
+            )
+          }
           <Text
             style={{
               marginLeft: 10
@@ -115,7 +144,6 @@ const ListMap = (props) => {
           marginTop: 10
         }}
       >
-        <Text>Test</Text>
       </View>
     </View>
   )

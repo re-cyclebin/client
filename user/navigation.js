@@ -79,7 +79,7 @@ const tabNav = createBottomTabNavigator({
     }
   },
 }, {
-  initialRouteName: 'stackProfile',
+  initialRouteName: 'stackHome',
   tabBarOptions: {
     activeTintColor: '#468847'
   }

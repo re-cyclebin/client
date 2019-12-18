@@ -6,6 +6,7 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios'
+import db from '../../configs/firestore'
 
 import MapView, { Marker } from 'react-native-maps'
 
@@ -45,7 +46,6 @@ export default (props) => {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
-    console.log(123)
     let finalStatus = existingStatus
     if(finalStatus !== 'granted') {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -54,7 +54,16 @@ export default (props) => {
     console.log(234)
     console.log(finalStatus)
     let token = await Notifications.getExpoPushTokenAsync();
-    console.log(token, 'token')
+    sendToken(token)
+  }
+
+  const sendToken = async (token) => {
+    try{
+      await db.collection('tokenDevice').doc(token).set({token})
+    }
+    catch(err) {
+      console.log(err)
+    }
   }
 
   const sendNotif = async () => {
