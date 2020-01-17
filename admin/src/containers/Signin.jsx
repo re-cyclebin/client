@@ -38,6 +38,7 @@ export default ({ navigation }) => {
       setError('')
     }, 2000); }
   }
+
   data
   ?
     data.UserSignin
